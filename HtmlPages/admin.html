@@ -1,0 +1,2597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CruiseHub — Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 280px;
+      height: 100vh;
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      padding: 30px 20px;
+      box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-top {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .logo-block {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logo-mark {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    }
+
+    .logo-text {
+      color: white;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 0.5px;
+    }
+
+    .sub {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 4px;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .nav-link {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.7);
+      padding: 14px 18px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-link:hover {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      transform: translateX(4px);
+    }
+
+    .nav-link.active {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    }
+
+    .logout-section {
+      margin-top: auto;
+      padding-top: 20px;
+      border-top: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logout-btn {
+      width: 100%;
+      padding: 14px 18px;
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+    }
+
+    .logout-btn:hover {
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+    }
+
+    .logout-btn:active {
+      transform: translateY(0);
+    }
+
+    .main {
+      margin-left: 280px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .top {
+      background: white;
+      padding: 30px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .header-left {
+      flex: 1;
+    }
+
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 16px;
+      color: #64748b;
+    }
+
+    .header-right {
+      display: flex;
+      gap: 15px;
+    }
+
+    #refreshBtn {
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    }
+
+    #refreshBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    }
+
+    #refreshBtn:active {
+      transform: translateY(0);
+    }
+
+    .content {
+      flex: 1;
+      padding: 40px;
+      overflow-y: auto;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 28px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      border: 1px solid #e5e7eb;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #3b82f6, #2563eb);
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+      border-color: #3b82f6;
+    }
+
+    .card h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .card h2 {
+      font-size: 42px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .card.recent-bookings {
+      grid-column: 1 / -1;
+      margin-top: 20px;
+    }
+
+    .card h3:first-child {
+      font-size: 18px;
+      text-transform: capitalize;
+      color: #1e293b;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    thead tr {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    }
+
+    th {
+      padding: 16px 12px;
+      text-align: left;
+      font-weight: 600;
+      color: #475569;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    td {
+      padding: 16px 12px;
+      border-bottom: 1px solid #e5e7eb;
+      color: #334155;
+    }
+
+    tbody tr {
+      transition: all 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background: #f8fafc;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .status.confirmed {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status.pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status.cancelled {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .section h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 24px;
+    }
+
+    /* ===== LOGOUT MODAL STYLES ===== */
+    .logout-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.3s ease;
+      backdrop-filter: blur(4px);
+    }
+
+    .logout-modal.show {
+      display: flex;
+    }
+
+    .logout-modal-content {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logout-icon {
+      font-size: 56px;
+      margin-bottom: 20px;
+      animation: wave 0.6s ease;
+    }
+
+    @keyframes wave {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(20deg); }
+      75% { transform: rotate(-20deg); }
+    }
+
+    .logout-modal h2 {
+      font-size: 24px;
+      color: #1e293b;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .logout-modal p {
+      font-size: 16px;
+      color: #64748b;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .logout-modal-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .logout-modal-btn {
+      padding: 12px 28px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 120px;
+    }
+
+    .logout-modal-btn.cancel {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .logout-modal-btn.cancel:hover {
+      background: #d1d5db;
+      transform: translateY(-2px);
+    }
+
+    .logout-modal-btn.confirm {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+    }
+
+    .logout-modal-btn.confirm:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+    }
+
+    /* ===== LOADING ANIMATION ===== */
+    .logout-loading {
+      display: none;
+      text-align: center;
+    }
+
+    .logout-loading.show {
+      display: block;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #e5e7eb;
+      border-top: 4px solid #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 240px;
+      }
+
+      .main {
+        margin-left: 240px;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        box-shadow: none;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 20px;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .sidebar-top {
+        flex-direction: row;
+        flex: 1;
+      }
+
+      .logo-block {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .nav-link {
+        flex: 1;
+        min-width: 140px;
+        padding: 10px 12px;
+        font-size: 13px;
+      }
+
+      .logout-section {
+        padding-top: 0;
+        border-top: none;
+        width: 100%;
+      }
+
+      .logout-btn {
+        padding: 10px 18px;
+        font-size: 13px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .page-title {
+        font-size: 24px;
+      }
+
+      table {
+        font-size: 12px;
+      }
+
+      th, td {
+        padding: 10px 8px;
+      }
+
+      .logout-modal-content {
+        padding: 30px 20px;
+      }
+
+      .logout-modal-buttons {
+        flex-direction: column;
+      }
+
+      .logout-modal-btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-block {
+        gap: 10px;
+      }
+
+      .brand {
+        font-size: 16px;
+      }
+
+      .page-title {
+        font-size: 20px;
+      }
+
+      #refreshBtn {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .card h2 {
+        font-size: 32px;
+      }
+
+      .logout-modal-content {
+        width: 95%;
+        padding: 25px 20px;
+      }
+
+      .logout-icon {
+        font-size: 48px;
+      }
+
+      .logout-modal h2 {
+        font-size: 20px;
+      }
+
+      .logout-modal p {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-top">
+    <div class="logo-block">
+      <div class="logo-mark">🚢</div>
+      <div class="logo-text">
+        <div class="brand">CruiseHub</div>
+        <div class="sub">Admin Portal</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <button class="nav-link active" data-target="overview">📊 Overview</button>
+      <button class="nav-link" data-target="cruises">⛴️ Manage Cruises</button>
+      <button class="nav-link" data-target="bookings">📋 Manage Bookings</button>
+      <button class="nav-link" data-target="schedule">📅 Schedule</button>
+      <button class="nav-link" data-target="reports">📈 Reports</button>
+      <button class="nav-link" data-target="feedback">💬 Feedback</button>
+      
+    </nav>
+  </div>
+
+  <div class="logout-section">
+    <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
+  </div>
+</aside>
+
+<div class="main">
+  <header class="top">
+    <div class="header-left">
+      <h1 id="pageTitle" class="page-title">Overview</h1>
+      <p class="page-subtitle">Welcome back to CruiseHub Admin</p>
+    </div>
+    <div class="header-right">
+      <button id="refreshBtn">🔄 Refresh Now</button>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <!-- ✅ OVERVIEW SECTION -->
+    <section id="overview-section" class="section active">
+      <div class="stats-grid">
+
+        <div class="card">
+          <h3>Total Bookings</h3>
+          <h2 id="totalBookings">0</h2>
+          <p>All confirmed bookings</p>
+        </div>
+
+        <div class="card">
+          <h3>Confirmed Bookings</h3>
+          <h2 id="confirmedBookings">0</h2>
+          <p>Status: Confirmed</p>
+        </div>
+
+        <div class="card">
+          <h3>Today's Bookings</h3>
+          <h2 id="todayBookings">0</h2>
+          <p>Last 24 hours</p>
+        </div>
+
+        <div class="card">
+          <h3>Total Revenue</h3>
+          <h2 id="totalRevenue">$0</h2>
+          <p>From all bookings</p>
+        </div>
+
+      </div>
+
+      <!-- Recent Bookings Preview -->
+      <div class="card recent-bookings">
+        <h3>Recent Bookings</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Booking ID</th>
+              <th>Name</th>
+              <th>Cruise</th>
+              <th>Confirmed At</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="recentBookingsTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Update the MANAGE CRUISES SECTION -->
+
+    <!-- ✅ MANAGE CRUISES SECTION -->
+    <section id="cruises-section" class="section">
+      <h2>Manage Cruises</h2>
+
+      <!-- Add New Cruise Form -->
+      <div class="card add-cruise-card">
+        <h3 style="font-size: 18px; color: #1e293b; margin-bottom: 24px;">➕ Add New Cruise</h3>
+        
+        <form id="addCruiseForm" class="cruise-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Cruise Name *</label>
+              <input type="text" id="cruiseName" placeholder="e.g., Hotel Barges" required>
+            </div>
+            <div class="form-group">
+              <label>Description *</label>
+              <input type="text" id="cruiseDescription" placeholder="e.g., Canal & river barges..." required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Duration (Days) *</label>
+              <input type="number" id="cruiseDays" placeholder="e.g., 5" min="1" required>
+            </div>
+            <div class="form-group">
+              <label>Duration (Nights) *</label>
+              <input type="number" id="cruiseNights" placeholder="e.g., 4" min="1" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Location *</label>
+              <input type="text" id="cruiseLocation" placeholder="e.g., France & Belgium" required>
+            </div>
+            <div class="form-group">
+              <label>Capacity (Passengers) *</label>
+              <input type="number" id="cruiseCapacity" placeholder="e.g., 1163" min="1" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Starting Price ($) *</label>
+              <input type="number" id="cruisePrice" placeholder="e.g., 2199" min="0" step="0.01" required>
+            </div>
+            <div class="form-group">
+              <label>Emoji Icon *</label>
+              <input type="text" id="cruiseEmoji" placeholder="e.g., 🏨" maxlength="2" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Category *</label>
+            <select id="cruiseCategory" required>
+              <option value="">Select Category</option>
+              <option value="Hotel Barges">Hotel Barges</option>
+              <option value="River Cruise Lines">River Cruise Lines</option>
+              <option value="Specialty Lines">Specialty Lines</option>
+              <option value="Ocean Cruises">Ocean Cruises</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn-submit">✓ Add Cruise</button>
+        </form>
+      </div>
+
+      <!-- All Cruises List -->
+      <div class="card cruises-list-card">
+        <h3 style="font-size: 18px; color: #1e293b; margin-bottom: 20px;">📋 All Cruises</h3>
+        <div id="cruisesList" class="cruises-grid"></div>
+      </div>
+    </section>
+
+<!-- Add these styles before closing </style> tag -->
+<style>
+  .add-cruise-card {
+    margin-bottom: 30px;
+  }
+
+  .cruise-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 8px;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 12px 14px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: #f0f9ff;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  .form-group input::placeholder {
+    color: #cbd5e1;
+  }
+
+  .btn-submit {
+    padding: 14px 28px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    align-self: flex-start;
+    margin-top: 10px;
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+  }
+
+  .btn-submit:active {
+    transform: translateY(0);
+  }
+
+  .cruises-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .cruise-item {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cruise-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #2563eb);
+  }
+
+  .cruise-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border-color: #3b82f6;
+  }
+
+  .cruise-emoji {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+
+  .cruise-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+  }
+
+  .cruise-desc {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+
+  .cruise-info {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .cruise-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #475569;
+    background: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+
+  .cruise-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #3b82f6;
+    margin-bottom: 12px;
+  }
+
+  .cruise-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn-edit,
+  .btn-delete {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-edit {
+    background: #dbeafe;
+    color: #0c4a6e;
+  }
+
+  .btn-edit:hover {
+    background: #bfdbfe;
+  }
+
+  .btn-delete {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .btn-delete:hover {
+    background: #fecaca;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #94a3b8;
+  }
+
+  .empty-state-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+
+  @media (max-width: 768px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .cruises-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+  }
+</style>
+
+<!-- Add this JavaScript before closing </script> tag -->
+<script>
+  // ===== MANAGE CRUISES FUNCTIONALITY =====
+  const addCruiseForm = document.getElementById('addCruiseForm');
+  const cruisesList = document.getElementById('cruisesList');
+
+  // Load cruises on page load
+  window.addEventListener('load', () => {
+    loadAllCruises();
+  });
+
+  // Add cruise form submission
+  addCruiseForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const cruise = {
+      id: Date.now(),
+      name: document.getElementById('cruiseName').value,
+      description: document.getElementById('cruiseDescription').value,
+      days: document.getElementById('cruiseDays').value,
+      nights: document.getElementById('cruiseNights').value,
+      location: document.getElementById('cruiseLocation').value,
+      capacity: document.getElementById('cruiseCapacity').value,
+      price: parseFloat(document.getElementById('cruisePrice').value),
+      emoji: document.getElementById('cruiseEmoji').value,
+      category: document.getElementById('cruiseCategory').value
+    };
+
+    // Save to localStorage
+    let cruises = JSON.parse(localStorage.getItem('cruises')) || [];
+    cruises.push(cruise);
+    localStorage.setItem('cruises', JSON.stringify(cruises));
+
+    // Reset form
+    addCruiseForm.reset();
+
+    // Reload list
+    loadAllCruises();
+
+    // Show success message
+    showNotification('✓ Cruise added successfully!', 'success');
+  });
+
+  function loadAllCruises() {
+    let cruises = JSON.parse(localStorage.getItem('cruises')) || [];
+    cruisesList.innerHTML = '';
+
+    if (cruises.length === 0) {
+      cruisesList.innerHTML = `
+        <div class="empty-state" style="grid-column: 1 / -1;">
+          <div class="empty-state-icon">⛴️</div>
+          <p>No cruises added yet. Create your first cruise!</p>
+        </div>
+      `;
+      return;
+    }
+
+    cruises.forEach(cruise => {
+      const cruiseItem = document.createElement('div');
+      cruiseItem.className = 'cruise-item';
+      cruiseItem.innerHTML = `
+        <div class="cruise-emoji">${cruise.emoji}</div>
+        <div class="cruise-title">${cruise.name}</div>
+        <div class="cruise-desc">${cruise.description}</div>
+        
+        <div class="cruise-info">
+          <div class="cruise-badge">📅 ${cruise.days} Days / ${cruise.nights} Nights</div>
+          <div class="cruise-badge">📍 ${cruise.location}</div>
+          <div class="cruise-badge">👥 ${cruise.capacity}</div>
+        </div>
+
+        <div class="cruise-price">Starting from $${cruise.price}</div>
+
+        <div class="cruise-actions">
+          <button class="btn-edit" onclick="editCruise(${cruise.id})">✏️ Edit</button>
+          <button class="btn-delete" onclick="deleteCruise(${cruise.id})">🗑️ Delete</button>
+        </div>
+      `;
+      cruisesList.appendChild(cruiseItem);
+    });
+  }
+
+  function deleteCruise(id) {
+    if (confirm('Are you sure you want to delete this cruise?')) {
+      let cruises = JSON.parse(localStorage.getItem('cruises')) || [];
+      cruises = cruises.filter(c => c.id !== id);
+      localStorage.setItem('cruises', JSON.stringify(cruises));
+      loadAllCruises();
+      showNotification('✓ Cruise deleted successfully!', 'success');
+    }
+  }
+
+  function editCruise(id) {
+    alert('Edit functionality coming soon!');
+  }
+
+  function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 16px 24px;
+      background: ${type === 'success' ? '#10b981' : '#ef4444'};
+      color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 3000;
+      animation: slideIn 0.3s ease;
+      font-weight: 600;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.style.animation = 'slideOut 0.3s ease';
+      setTimeout(() => notification.remove(), 300);
+    }, 3000);
+  }
+
+  // Add animation styles
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes slideIn {
+      from { transform: translateX(400px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(400px); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+</script>
+
+    <!-- ✅ MANAGE BOOKINGS SECTION -->
+    <section id="bookings-section" class="section">
+      <h2>Manage Bookings</h2>
+
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Booking ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Cruise</th>
+              <th>Passengers</th>
+              <th>Amount</th>
+              <th>Travel Date</th>
+              <th>Confirmed At</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="bookingTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ✅ REPORTS SECTION -->
+    <!-- Update the REPORTS SECTION in admin.html -->
+
+    <!-- ✅ REPORTS SECTION -->
+    <section id="reports-section" class="section">
+      <h2>Reports & Analytics</h2>
+
+      <!-- Report Stats -->
+      <div class="stats-grid">
+        <div class="card">
+          <h3>Total Bookings</h3>
+          <h2 id="reportTotalBookings">0</h2>
+          <p>All time bookings</p>
+        </div>
+
+        <div class="card">
+          <h3>This Month</h3>
+          <h2 id="reportMonthBookings">0</h2>
+          <p>Current month</p>
+        </div>
+
+        <div class="card">
+          <h3>This Week</h3>
+          <h2 id="reportWeekBookings">0</h2>
+          <p>Last 7 days</p>
+        </div>
+
+        <div class="card">
+          <h3>Total Revenue</h3>
+          <h2 id="reportRevenue">$0</h2>
+          <p>All bookings revenue</p>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-container">
+        <!-- Date-wise Bookings Bar Chart -->
+        <div class="card chart-card">
+          <h3 style="font-size: 18px; color: #1e293b; margin-bottom: 24px;">📊 Date-Wise Bookings</h3>
+          <div class="chart-wrapper">
+            <canvas id="dateWiseChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Booking Status Distribution -->
+        <div class="card chart-card">
+          <h3 style="font-size: 18px; color: #1e293b; margin-bottom: 24px;">📈 Booking Status</h3>
+          <div class="chart-wrapper">
+            <canvas id="statusChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Revenue Trend -->
+        <div class="card chart-card">
+          <h3 style="font-size: 18px; color: #1e293b; margin-bottom: 24px;">💰 Revenue Trend</h3>
+          <div class="chart-wrapper">
+            <canvas id="revenueChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Bookings by Cruise -->
+        <div class="card chart-card">
+          <h3 style="font-size: 18px; color: #1e293b; margin-bottom: 24px;">⛴️ Bookings by Cruise</h3>
+          <div class="chart-wrapper">
+            <canvas id="cruiseChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<!-- Add these styles before closing </style> tag -->
+<style>
+  .charts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 24px;
+    margin-top: 30px;
+  }
+
+  .chart-card {
+    grid-column: span 1;
+  }
+
+  .chart-card:nth-child(3),
+  .chart-card:nth-child(4) {
+    grid-column: span 1;
+  }
+
+  .chart-wrapper {
+    position: relative;
+    height: 300px;
+    width: 100%;
+  }
+
+  .chart-wrapper canvas {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  @media (max-width: 1024px) {
+    .charts-container {
+      grid-template-columns: 1fr;
+    }
+
+    .chart-card {
+      grid-column: span 1 !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .charts-container {
+      grid-template-columns: 1fr;
+    }
+
+    .chart-wrapper {
+      height: 250px;
+    }
+  }
+</style>
+
+<!-- Add this JavaScript before closing </script> tag in admin.html -->
+<script>
+  // ===== REPORTS & ANALYTICS =====
+  let chartInstances = {
+    dateWise: null,
+    status: null,
+    revenue: null,
+    cruise: null
+  };
+
+  function loadReports() {
+    let allBookings = JSON.parse(localStorage.getItem("adminBookings")) || [];
+
+    // ===== REPORT STATS =====
+    document.getElementById("reportTotalBookings").innerText = allBookings.length;
+
+    // This Month
+    let currentMonth = new Date().toLocaleString('en-US', { month: '2-digit', year: 'numeric' });
+    let monthCount = allBookings.filter(b => {
+      let bookingMonth = new Date(b.dateTime).toLocaleString('en-US', { month: '2-digit', year: 'numeric' });
+      return bookingMonth === currentMonth;
+    }).length;
+    document.getElementById("reportMonthBookings").innerText = monthCount;
+
+    // This Week
+    let weekStart = new Date();
+    weekStart.setDate(weekStart.getDate() - 7);
+    let weekCount = allBookings.filter(b => new Date(b.dateTime) >= weekStart).length;
+    document.getElementById("reportWeekBookings").innerText = weekCount;
+
+    // Total Revenue
+    let totalRevenue = allBookings.reduce((sum, b) => {
+      let amount = parseFloat(b.amount.toString().replace(/[^\d.-]/g, "")) || 0;
+      return sum + amount;
+    }, 0);
+    document.getElementById("reportRevenue").innerText = "$" + totalRevenue.toFixed(2);
+
+    // ===== LOAD CHARTS =====
+    loadDateWiseChart(allBookings);
+    loadStatusChart(allBookings);
+    loadRevenueChart(allBookings);
+    loadCruiseChart(allBookings);
+  }
+
+  function loadDateWiseChart(bookings) {
+    // Group bookings by date
+    let dateMap = {};
+    bookings.forEach(b => {
+      let date = new Date(b.dateTime).toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric' 
+      });
+      dateMap[date] = (dateMap[date] || 0) + 1;
+    });
+
+    let labels = Object.keys(dateMap).sort((a, b) => new Date(a) - new Date(b));
+    let data = labels.map(label => dateMap[label]);
+
+    // Get last 14 days
+    const lastDays = 14;
+    const today = new Date();
+    const chartLabels = [];
+    const chartData = [];
+
+    for (let i = lastDays - 1; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      chartLabels.push(dateStr);
+      chartData.push(dateMap[dateStr] || 0);
+    }
+
+    const ctx = document.getElementById("dateWiseChart");
+    
+    if (chartInstances.dateWise) {
+      chartInstances.dateWise.destroy();
+    }
+
+    chartInstances.dateWise = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: chartLabels,
+        datasets: [{
+          label: "Bookings",
+          data: chartData,
+          backgroundColor: [
+            '#3b82f6',
+            '#06b6d4',
+            '#10b981',
+            '#f59e0b',
+            '#ef4444',
+            '#8b5cf6',
+            '#ec4899',
+            '#3b82f6',
+            '#06b6d4',
+            '#10b981',
+            '#f59e0b',
+            '#ef4444',
+            '#8b5cf6',
+            '#ec4899'
+          ],
+          borderColor: '#e5e7eb',
+          borderWidth: 1,
+          borderRadius: 8,
+          hoverBackgroundColor: '#2563eb',
+          hoverBorderColor: '#1e40af'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            labels: {
+              font: { size: 13, weight: '600' },
+              padding: 16,
+              usePointStyle: true,
+              color: '#475569'
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+            padding: 12,
+            cornerRadius: 8,
+            titleFont: { size: 14, weight: '600' },
+            bodyFont: { size: 13 }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            stepSize: 1,
+            grid: {
+              color: 'rgba(229, 231, 235, 0.5)',
+              drawBorder: false
+            },
+            ticks: {
+              color: '#64748b',
+              font: { size: 12 },
+              padding: 8
+            }
+          },
+          x: {
+            grid: {
+              display: false,
+              drawBorder: false
+            },
+            ticks: {
+              color: '#64748b',
+              font: { size: 12 }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function loadStatusChart(bookings) {
+    let statusMap = {};
+    bookings.forEach(b => {
+      statusMap[b.status] = (statusMap[b.status] || 0) + 1;
+    });
+
+    let labels = Object.keys(statusMap);
+    let data = labels.map(label => statusMap[label]);
+
+    const ctx = document.getElementById("statusChart");
+    
+    if (chartInstances.status) {
+      chartInstances.status.destroy();
+    }
+
+    chartInstances.status = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: labels,
+        datasets: [{
+          label: "Bookings",
+          data: data,
+          backgroundColor: [
+            '#10b981',
+            '#f59e0b',
+            '#ef4444',
+            '#6366f1'
+          ],
+          borderColor: '#fff',
+          borderWidth: 3,
+          hoverOffset: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom',
+            labels: {
+              font: { size: 13, weight: '600' },
+              padding: 16,
+              usePointStyle: true,
+              color: '#475569'
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+            padding: 12,
+            cornerRadius: 8,
+            callbacks: {
+              label: function(context) {
+                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                const percentage = ((context.parsed / total) * 100).toFixed(1);
+                return context.label + ': ' + context.parsed + ' (' + percentage + '%)';
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function loadRevenueChart(bookings) {
+    // Group revenue by date
+    let revenueMap = {};
+    bookings.forEach(b => {
+      let date = new Date(b.dateTime).toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric' 
+      });
+      let amount = parseFloat(b.amount.toString().replace(/[^\d.-]/g, "")) || 0;
+      revenueMap[date] = (revenueMap[date] || 0) + amount;
+    });
+
+    const lastDays = 14;
+    const today = new Date();
+    const chartLabels = [];
+    const chartData = [];
+
+    for (let i = lastDays - 1; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      chartLabels.push(dateStr);
+      chartData.push(revenueMap[dateStr] || 0);
+    }
+
+    const ctx = document.getElementById("revenueChart");
+    
+    if (chartInstances.revenue) {
+      chartInstances.revenue.destroy();
+    }
+
+    chartInstances.revenue = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: chartLabels,
+        datasets: [{
+          label: "Revenue ($)",
+          data: chartData,
+          backgroundColor: "rgba(16, 185, 129, 0.1)",
+          borderColor: "#10b981",
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 5,
+          pointBackgroundColor: "#10b981",
+          pointBorderColor: "#fff",
+          pointBorderWidth: 2,
+          pointHoverRadius: 7
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            labels: {
+              font: { size: 13, weight: '600' },
+              padding: 16,
+              usePointStyle: true,
+              color: '#475569'
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+            padding: 12,
+            cornerRadius: 8,
+            callbacks: {
+              label: function(context) {
+                return '$' + context.parsed.y.toFixed(2);
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(229, 231, 235, 0.5)',
+              drawBorder: false
+            },
+            ticks: {
+              color: '#64748b',
+              font: { size: 12 },
+              callback: function(value) {
+                return '$' + value;
+              }
+            }
+          },
+          x: {
+            grid: {
+              display: false,
+              drawBorder: false
+            },
+            ticks: {
+              color: '#64748b',
+              font: { size: 12 }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function loadCruiseChart(bookings) {
+    // Group bookings by cruise
+    let cruiseMap = {};
+    bookings.forEach(b => {
+      cruiseMap[b.cruise] = (cruiseMap[b.cruise] || 0) + 1;
+    });
+
+    let labels = Object.keys(cruiseMap);
+    let data = labels.map(label => cruiseMap[label]);
+
+    const ctx = document.getElementById("cruiseChart");
+    
+    if (chartInstances.cruise) {
+      chartInstances.cruise.destroy();
+    }
+
+    chartInstances.cruise = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: labels,
+        datasets: [{
+          label: "Bookings",
+          data: data,
+          backgroundColor: '#3b82f6',
+          borderColor: '#e5e7eb',
+          borderWidth: 1,
+          borderRadius: 8,
+          hoverBackgroundColor: '#2563eb'
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            labels: {
+              font: { size: 13, weight: '600' },
+              padding: 16,
+              usePointStyle: true,
+              color: '#475569'
+            }
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            stepSize: 1,
+            grid: {
+              color: 'rgba(229, 231, 235, 0.5)',
+              drawBorder: false
+            },
+            ticks: {
+              color: '#64748b',
+              font: { size: 12 }
+            }
+          },
+          y: {
+            grid: {
+              display: false,
+              drawBorder: false
+            },
+            ticks: {
+              color: '#64748b',
+              font: { size: 12 }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Load reports on page load and set auto-refresh
+  window.addEventListener('load', () => {
+    loadReports();
+    
+    // Auto-refresh every 10 seconds
+    setInterval(loadReports, 10000);
+  });
+</script>
+
+  </main>
+</div>
+<!-- Replace the loadReports function with this improved version -->
+
+<script>
+  // ===== IMPROVED REPORTS & ANALYTICS =====
+  let chartInstances = {
+    dateWise: null,
+    status: null,
+    revenue: null,
+    cruise: null
+  };
+
+  function loadReports() {
+    let allBookings = JSON.parse(localStorage.getItem("adminBookings")) || [];
+
+    // ===== REPORT STATS =====
+    document.getElementById("reportTotalBookings").innerText = allBookings.length;
+
+    // This Month
+    let currentMonth = new Date().toLocaleString('en-US', { month: '2-digit', year: 'numeric' });
+    let monthCount = allBookings.filter(b => {
+      let bookingMonth = new Date(b.dateTime).toLocaleString('en-US', { month: '2-digit', year: 'numeric' });
+      return bookingMonth === currentMonth;
+    }).length;
+    document.getElementById("reportMonthBookings").innerText = monthCount;
+
+    // This Week
+    let weekStart = new Date();
+    weekStart.setDate(weekStart.getDate() - 7);
+    let weekCount = allBookings.filter(b => new Date(b.dateTime) >= weekStart).length;
+    document.getElementById("reportWeekBookings").innerText = weekCount;
+
+    // Total Revenue
+    let totalRevenue = allBookings.reduce((sum, b) => {
+      let amount = parseFloat(b.amount.toString().replace(/[^\d.-]/g, "")) || 0;
+      return sum + amount;
+    }, 0);
+    document.getElementById("reportRevenue").innerText = "$" + totalRevenue.toFixed(2);
+
+    // ===== LOAD CHARTS SAFELY =====
+    try {
+      loadDateWiseChart(allBookings);
+      loadStatusChart(allBookings);
+      loadRevenueChart(allBookings);
+      loadCruiseChart(allBookings);
+    } catch (error) {
+      console.error('Chart loading error:', error);
+    }
+  }
+
+  function loadDateWiseChart(bookings) {
+    // Get canvas element - if not visible, skip
+    const ctx = document.getElementById("dateWiseChart");
+    if (!ctx || !ctx.parentElement.offsetParent) {
+      console.log('Date chart canvas not visible yet');
+      return;
+    }
+
+    // Group bookings by date
+    let dateMap = {};
+    bookings.forEach(b => {
+      let date = new Date(b.dateTime).toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric' 
+      });
+      dateMap[date] = (dateMap[date] || 0) + 1;
+    });
+
+    const lastDays = 14;
+    const today = new Date();
+    const chartLabels = [];
+    const chartData = [];
+
+    for (let i = lastDays - 1; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      chartLabels.push(dateStr);
+      chartData.push(dateMap[dateStr] || 0);
+    }
+
+    if (chartInstances.dateWise) {
+      chartInstances.dateWise.destroy();
+    }
+
+    chartInstances.dateWise = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: chartLabels,
+        datasets: [{
+          label: "Bookings",
+          data: chartData,
+          backgroundColor: [
+            '#3b82f6', '#06b6d4', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#3b82f6',
+            '#06b6d4', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'
+          ],
+          borderColor: '#e5e7eb',
+          borderWidth: 1,
+          borderRadius: 8,
+          hoverBackgroundColor: '#2563eb',
+          hoverBorderColor: '#1e40af'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            labels: {
+              font: { size: 13, weight: '600' },
+              padding: 16,
+              usePointStyle: true,
+              color: '#475569'
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+            padding: 12,
+            cornerRadius: 8,
+            titleFont: { size: 14, weight: '600' },
+            bodyFont: { size: 13 }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            stepSize: 1,
+            grid: { color: 'rgba(229, 231, 235, 0.5)', drawBorder: false },
+            ticks: { color: '#64748b', font: { size: 12 }, padding: 8 }
+          },
+          x: {
+            grid: { display: false, drawBorder: false },
+            ticks: { color: '#64748b', font: { size: 12 } }
+          }
+        }
+      }
+    });
+  }
+
+  function loadStatusChart(bookings) {
+    const ctx = document.getElementById("statusChart");
+    if (!ctx || !ctx.parentElement.offsetParent) return;
+
+    let statusMap = {};
+    bookings.forEach(b => {
+      statusMap[b.status] = (statusMap[b.status] || 0) + 1;
+    });
+
+    let labels = Object.keys(statusMap);
+    let data = labels.map(label => statusMap[label]);
+
+    if (chartInstances.status) {
+      chartInstances.status.destroy();
+    }
+
+    chartInstances.status = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: labels,
+        datasets: [{
+          label: "Bookings",
+          data: data,
+          backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#6366f1'],
+          borderColor: '#fff',
+          borderWidth: 3,
+          hoverOffset: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom',
+            labels: {
+              font: { size: 13, weight: '600' },
+              padding: 16,
+              usePointStyle: true,
+              color: '#475569'
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+            padding: 12,
+            cornerRadius: 8,
+            callbacks: {
+              label: function(context) {
+                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                const percentage = ((context.parsed / total) * 100).toFixed(1);
+                return context.label + ': ' + context.parsed + ' (' + percentage + '%)';
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function loadRevenueChart(bookings) {
+    const ctx = document.getElementById("revenueChart");
+    if (!ctx || !ctx.parentElement.offsetParent) return;
+
+    let revenueMap = {};
+    bookings.forEach(b => {
+      let date = new Date(b.dateTime).toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric' 
+      });
+      let amount = parseFloat(b.amount.toString().replace(/[^\d.-]/g, "")) || 0;
+      revenueMap[date] = (revenueMap[date] || 0) + amount;
+    });
+
+    const lastDays = 14;
+    const today = new Date();
+    const chartLabels = [];
+    const chartData = [];
+
+    for (let i = lastDays - 1; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      chartLabels.push(dateStr);
+      chartData.push(revenueMap[dateStr] || 0);
+    }
+
+    if (chartInstances.revenue) {
+      chartInstances.revenue.destroy();
+    }
+
+    chartInstances.revenue = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: chartLabels,
+        datasets: [{
+          label: "Revenue ($)",
+          data: chartData,
+          backgroundColor: "rgba(16, 185, 129, 0.1)",
+          borderColor: "#10b981",
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 5,
+          pointBackgroundColor: "#10b981",
+          pointBorderColor: "#fff",
+          pointBorderWidth: 2,
+          pointHoverRadius: 7
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            labels: {
+              font: { size: 13, weight: '600' },
+              padding: 16,
+              usePointStyle: true,
+              color: '#475569'
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+            padding: 12,
+            cornerRadius: 8,
+            callbacks: {
+              label: function(context) {
+                return '$' + context.parsed.y.toFixed(2);
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: { color: 'rgba(229, 231, 235, 0.5)', drawBorder: false },
+            ticks: {
+              color: '#64748b',
+              font: { size: 12 },
+              callback: function(value) { return '$' + value; }
+            }
+          },
+          x: {
+            grid: { display: false, drawBorder: false },
+            ticks: { color: '#64748b', font: { size: 12 } }
+          }
+        }
+      }
+    });
+  }
+
+  function loadCruiseChart(bookings) {
+    const ctx = document.getElementById("cruiseChart");
+    if (!ctx || !ctx.parentElement.offsetParent) return;
+
+    let cruiseMap = {};
+    bookings.forEach(b => {
+      cruiseMap[b.cruise] = (cruiseMap[b.cruise] || 0) + 1;
+    });
+
+    let labels = Object.keys(cruiseMap);
+    let data = labels.map(label => cruiseMap[label]);
+
+    if (chartInstances.cruise) {
+      chartInstances.cruise.destroy();
+    }
+
+    chartInstances.cruise = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: labels,
+        datasets: [{
+          label: "Bookings",
+          data: data,
+          backgroundColor: '#3b82f6',
+          borderColor: '#e5e7eb',
+          borderWidth: 1,
+          borderRadius: 8,
+          hoverBackgroundColor: '#2563eb'
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            labels: {
+              font: { size: 13, weight: '600' },
+              padding: 16,
+              usePointStyle: true,
+              color: '#475569'
+            }
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            stepSize: 1,
+            grid: { color: 'rgba(229, 231, 235, 0.5)', drawBorder: false },
+            ticks: { color: '#64748b', font: { size: 12 } }
+          },
+          y: {
+            grid: { display: false, drawBorder: false },
+            ticks: { color: '#64748b', font: { size: 12 } }
+          }
+        }
+      }
+    });
+  }
+
+  // Load reports on page load
+  window.addEventListener('load', () => {
+    loadReports();
+    setInterval(loadReports, 10000);
+  });
+</script>
+// ...existing code...
+
+<!-- FEEDBACK SECTION (replace existing simple list) -->
+<section id="feedback-section" class="section" style="display:block; margin-top:24px;">
+  <div class="container">
+    <div class="section-header" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;">
+      <div>
+        <h2 style="margin:0 0 6px 0">Customer Feedback</h2>
+        <p style="margin:0;color:#6b7280">Recent feedback submitted from the site</p>
+      </div>
+
+      <div style="display:flex;gap:8px;align-items:center;">
+        <input id="fbSearch" type="search" placeholder="Search name, email, message" style="padding:8px 12px;border-radius:8px;border:1px solid #e5e7eb;min-width:280px;">
+        <select id="fbFilter" style="padding:8px 12px;border-radius:8px;border:1px solid #e5e7eb;">
+          <option value="all">All</option>
+          <option value="new">New</option>
+          <option value="read">Read</option>
+          <option value="5">5★</option>
+          <option value="4">4★</option>
+          <option value="3">3★</option>
+        </select>
+        <button id="refreshFeedback" style="background:#2563eb;color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;">Refresh</button>
+      </div>
+    </div>
+
+    <div class="stats-grid" style="display:flex;gap:12px;margin-top:18px;flex-wrap:wrap;">
+      <div class="card stat" style="flex:1;min-width:160px;padding:16px;border-radius:10px;background:#fff;box-shadow:0 6px 20px rgba(15,23,42,0.06);">
+        <div style="font-size:12px;color:#64748b">Total Feedback</div>
+        <div id="totalFeedback" style="font-weight:700;font-size:20px;margin-top:8px">0</div>
+      </div>
+
+      <div class="card stat" style="flex:1;min-width:160px;padding:16px;border-radius:10px;background:#fff;box-shadow:0 6px 20px rgba(15,23,42,0.06);">
+        <div style="font-size:12px;color:#64748b">Total feedack</div>
+        <div id="newFeedback" style="font-weight:700;font-size:20px;margin-top:8px">0</div>
+      </div>
+
+      <div class="card stat" style="flex:1;min-width:160px;padding:16px;border-radius:10px;background:#fff;box-shadow:0 6px 20px rgba(15,23,42,0.06);">
+        <div style="font-size:12px;color:#64748b">Average Rating</div>
+        <div id="avgRating" style="font-weight:700;font-size:20px;margin-top:8px">0 ★</div>
+      </div>
+    </div>
+
+    <div id="feedbackList" style="margin-top:18px;display:flex;flex-direction:column;gap:12px;"></div>
+
+    <!-- Pagination / empty -->
+    <div id="fbEmpty" style="margin-top:12px;color:#64748b;display:none;">No feedback available.</div>
+  </div>
+</section>
+
+<!-- Feedback detail modal -->
+<div id="fbModal" style="display:none;position:fixed;inset:0;background:rgba(2,6,23,0.6);align-items:center;justify-content:center;z-index:9999;">
+  <div style="width:720px;max-width:95%;background:#fff;border-radius:12px;padding:18px;box-shadow:0 20px 60px rgba(2,6,23,0.3);">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <h3 id="modalName" style="margin:0"></h3>
+        <div id="modalMeta" style="font-size:13px;color:#6b7280;margin-top:6px"></div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div id="modalRating" style="color:#f59e0b;font-weight:700"></div>
+        <button onclick="closeFbModal()" style="background:#ef4444;color:#fff;border:none;padding:8px 12px;border-radius:8px;cursor:pointer">Close</button>
+      </div>
+    </div>
+    <hr style="border:none;border-top:1px solid #eef2ff;margin:12px 0">
+    <div id="modalMessage" style="white-space:pre-wrap;color:#0f172a"></div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;">
+      <button id="modalMarkBtn" style="padding:8px 12px;border-radius:8px;border:1px solid #e5e7eb;background:#fff;cursor:pointer">Mark Read</button>
+      <button id="modalDeleteBtn" style="padding:8px 12px;border-radius:8px;border:none;background:#ef4444;color:#fff;cursor:pointer">Delete</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* professional feedback styles */
+  #feedbackList .fb-card { background:#fff;border-radius:10px;padding:14px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;box-shadow:0 10px 30px rgba(2,6,23,0.04); }
+  .fb-left { flex:1; min-width:0; }
+  .fb-right { width:170px; text-align:right; display:flex;flex-direction:column;gap:8px;align-items:flex-end; }
+  .fb-name { font-weight:700;color:#0f172a; }
+  .fb-meta { font-size:13px;color:#64748b;margin-top:6px;margin-left: 300px; }
+  .fb-msg { margin-top:10px;color:#334155;background:#f8fafc;padding:10px;border-radius:8px;border-left:4px solid #3b82f6;white-space:pre-wrap; }
+  .fb-actions button { padding:8px 10px;border-radius:8px;border:none;cursor:pointer;font-weight:600; }
+  .btn-read { background:#10b981;color:#fff }
+  .btn-delete { background:#ef4444;color:#fff }
+  .badge-new { background:#dcfce7;color:#166534;padding:6px 8px;border-radius:999px;font-weight:700;font-size:12px }
+  @media(max-width:720px){ .fb-right{ width:120px; align-items:flex-end } }
+</style>
+
+<script>
+  // Admin feedback management: professional rendering + modal + filters
+  (function(){
+    const listEl = document.getElementById('feedbackList');
+    const totalEl = document.getElementById('totalFeedback');
+    const newEl = document.getElementById('newFeedback');
+    const avgEl = document.getElementById('avgRating');
+    const emptyEl = document.getElementById('fbEmpty');
+
+    const searchEl = document.getElementById('fbSearch');
+    const filterEl = document.getElementById('fbFilter');
+    const refreshBtn = document.getElementById('refreshFeedback');
+
+    const modal = document.getElementById('fbModal');
+    const modalName = document.getElementById('modalName');
+    const modalMeta = document.getElementById('modalMeta');
+    const modalMessage = document.getElementById('modalMessage');
+    const modalRating = document.getElementById('modalRating');
+    const modalMarkBtn = document.getElementById('modalMarkBtn');
+    const modalDeleteBtn = document.getElementById('modalDeleteBtn');
+
+    let feedbacks = [];
+    let activeItem = null;
+
+    function load() {
+      feedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
+      renderStats();
+      renderList();
+    }
+
+    function renderStats(){
+      totalEl.innerText = feedbacks.length;
+      const newCount = feedbacks.filter(f => (f.status||'New') === 'New').length;
+      newEl.innerText = newCount;
+      const rated = feedbacks.filter(f => f.rating && f.rating>0);
+      const avg = rated.length ? (rated.reduce((s,r)=>s+Number(r.rating),0)/rated.length).toFixed(1) : 0;
+      avgEl.innerText = avg + ' ★';
+    }
+
+    function matchesFilter(f){
+      const q = (searchEl.value||'').toLowerCase().trim();
+      const sel = filterEl.value;
+      if(sel === 'new' && (f.status||'New') !== 'New') return false;
+      if(sel === 'read' && (f.status||'New') !== 'Read') return false;
+      if(['5','4','3'].includes(sel) && String(f.rating) !== sel) return false;
+      if(!q) return true;
+      return (f.name||'').toLowerCase().includes(q) ||
+             (f.email||'').toLowerCase().includes(q) ||
+             (f.message||'').toLowerCase().includes(q);
+    }
+
+    function renderList(){
+      listEl.innerHTML = '';
+      const filtered = feedbacks.slice().reverse().filter(matchesFilter);
+      if(filtered.length === 0){
+        emptyEl.style.display = 'block';
+        return;
+      } else emptyEl.style.display = 'none';
+
+      filtered.forEach(f=>{
+        const card = document.createElement('div');
+        card.className = 'fb-card';
+        card.innerHTML = `
+          <div class="fb-left">
+            <div class="fb-name">${escapeHtml(f.name||'Anonymous')}</div>
+            <div class="fb-meta">${escapeHtml(f.email||'')} • ${escapeHtml(f.date||f.timestamp||'')}</div>
+            <div class="fb-msg">${escapeHtml(f.message||'')}</div>
+          </div>
+          <div class="fb-right">
+            <div>${f.rating ? '★'.repeat(f.rating) : '—'}</div>
+            <div class="${(f.status||'New')==='New' ? 'badge-new' : ''}">${(f.status||'New')==='New' ? 'New' : 'Read'}</div>
+            <div class="fb-actions" style="margin-top:8px;">
+              <button class="btn-read" data-id="${f.id}">${(f.status||'New')==='New' ? 'Mark Read' : 'Mark New'}</button>
+              <button class="btn-delete" data-id="${f.id}">Delete</button>
+              <button style="margin-left:6px;padding:6px 8px;border-radius:8px;border:1px solid #e5e7eb;background:#fff;cursor:pointer" data-id="${f.id}" data-action="view">View</button>
+            </div>
+          </div>
+        `;
+        listEl.appendChild(card);
+      });
+    }
+
+    // escape helper
+    function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+    // events - delegate
+    listEl.addEventListener('click', (e)=>{
+      const btn = e.target.closest('button');
+      if(!btn) return;
+      const id = Number(btn.dataset.id);
+      if(btn.classList.contains('btn-read')){
+        toggleStatus(id);
+      } else if(btn.classList.contains('btn-delete')){
+        deleteItem(id);
+      } else if(btn.dataset.action === 'view'){
+        openModal(id);
+      }
+    });
+
+    function toggleStatus(id){
+      const idx = feedbacks.findIndex(x=>x.id===id);
+      if(idx === -1) return;
+      feedbacks[idx].status = (feedbacks[idx].status||'New') === 'New' ? 'Read' : 'New';
+      localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+      load();
+    }
+
+    function deleteItem(id){
+      if(!confirm('Delete this feedback permanently?')) return;
+      feedbacks = feedbacks.filter(x=>x.id!==id);
+      localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+      load();
+    }
+
+    function openModal(id){
+      activeItem = feedbacks.find(x=>x.id===id);
+      if(!activeItem) return;
+      modalName.innerText = activeItem.name||'Anonymous';
+      modalMeta.innerText = (activeItem.email||'') + ' • ' + (activeItem.date||activeItem.timestamp||'');
+      modalMessage.innerText = activeItem.message||'';
+      modalRating.innerText = activeItem.rating ? '★'.repeat(activeItem.rating) : '';
+      modalMarkBtn.innerText = (activeItem.status||'New') === 'New' ? 'Mark Read' : 'Mark New';
+      modal.style.display = 'flex';
+    }
+
+    window.closeFbModal = function(){ modal.style.display = 'none'; activeItem = null; };
+
+    modalMarkBtn.addEventListener('click', ()=>{
+      if(!activeItem) return;
+      toggleStatus(activeItem.id);
+      closeFbModal();
+    });
+
+    modalDeleteBtn.addEventListener('click', ()=>{
+      if(!activeItem) return;
+      deleteItem(activeItem.id);
+      closeFbModal();
+    });
+
+    // search/filter/refresh handlers
+    searchEl.addEventListener('input', () => renderList());
+    filterEl.addEventListener('change', () => renderList());
+    refreshBtn.addEventListener('click', () => load());
+
+    // auto-refresh to reflect new homepage submissions
+    setInterval(load, 4000);
+
+    // initial load
+    load();
+    // expose for console debugging
+    window._adminFeedbackLoad = load;
+  })();
+</script>
+
+// ...existing code...
+
+<!-- ===== LOGOUT CONFIRMATION MODAL ===== -->
+<div id="logoutModal" class="logout-modal">
+  <div class="logout-modal-content">
+    <div class="logout-icon">👋</div>
+    <h2>Confirm Logout</h2>
+    <p>Are you sure you want to logout? You will be redirected to the login page.</p>
+    <div class="logout-modal-buttons">
+      <button class="logout-modal-btn cancel" id="cancelLogoutBtn">Cancel</button>
+      <button class="logout-modal-btn confirm" id="confirmLogoutBtn">Logout</button>
+    </div>
+
+    <!-- Loading State -->
+    <div class="logout-loading" id="logoutLoading">
+      <div class="spinner"></div>
+      <p style="color: #64748b; font-size: 14px;">Logging out...</p>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script>
+  // ===== SIDEBAR NAVIGATION =====
+  document.querySelectorAll('.nav-link').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const target = btn.dataset.target + '-section';
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(target).classList.add('active');
+
+      document.getElementById('pageTitle').textContent = btn.textContent.trim();
+    });
+  });
+
+  // ===== LOGOUT FUNCTIONALITY =====
+  const logoutBtn = document.getElementById('logoutBtn');
+  const logoutModal = document.getElementById('logoutModal');
+  const cancelLogoutBtn = document.getElementById('cancelLogoutBtn');
+  const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
+  const logoutLoading = document.getElementById('logoutLoading');
+
+  logoutBtn.addEventListener('click', () => {
+    logoutModal.classList.add('show');
+    logoutLoading.classList.remove('show');
+  });
+
+  cancelLogoutBtn.addEventListener('click', () => {
+    logoutModal.classList.remove('show');
+  });
+
+  confirmLogoutBtn.addEventListener('click', () => {
+    // Show loading state
+    document.querySelector('.logout-modal-buttons').style.display = 'none';
+    document.querySelector('.logout-modal h2').style.display = 'none';
+    document.querySelector('.logout-modal p').style.display = 'none';
+    logoutLoading.classList.add('show');
+
+    // Simulate logout process
+    setTimeout(() => {
+      // Clear admin session data
+      localStorage.removeItem("adminSession");
+      localStorage.removeItem("adminUser");
+      localStorage.removeItem("adminBookings");
+      sessionStorage.clear();
+
+      // Redirect to login page
+      window.location.href = 'login.html';
+    }, 1500);
+  });
+
+  // Close modal when clicking outside
+  logoutModal.addEventListener('click', (e) => {
+    if (e.target === logoutModal) {
+      logoutModal.classList.remove('show');
+    }
+  });
+
+  // Keyboard shortcut - Escape key to close modal
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && logoutModal.classList.contains('show')) {
+      logoutModal.classList.remove('show');
+    }
+  });
+
+  // ===== LOAD ADMIN DATA =====
+  window.addEventListener('load', () => {
+    loadAdminData();
+    
+    // Refresh button
+    document.getElementById('refreshBtn').addEventListener('click', loadAdminData);
+    
+    // Auto-refresh every 5 seconds
+    setInterval(loadAdminData, 5000);
+  });
+
+  function loadAdminData() {
+    let allBookings = JSON.parse(localStorage.getItem("adminBookings")) || [];
+
+    // ===== OVERVIEW STATS =====
+    document.getElementById("totalBookings").innerText = allBookings.length;
+
+    let confirmed = allBookings.filter(b => b.status === "Confirmed");
+    document.getElementById("confirmedBookings").innerText = confirmed.length;
+
+    let today = new Date().toLocaleDateString();
+    let todayCount = allBookings.filter(b => 
+      new Date(b.dateTime).toLocaleDateString() === today
+    ).length;
+    document.getElementById("todayBookings").innerText = todayCount;
+
+    // Calculate total revenue
+    let totalRevenue = allBookings.reduce((sum, b) => {
+      let amount = parseFloat(b.amount.toString().replace(/[^\d.-]/g, "")) || 0;
+      return sum + amount;
+    }, 0);
+    document.getElementById("totalRevenue").innerText = "$" + totalRevenue.toFixed(2);
+
+    // ===== RECENT BOOKINGS (Last 5) =====
+    loadRecentBookings(allBookings);
+
+    // ===== MANAGE BOOKINGS TABLE =====
+    loadBookingsTable(allBookings);
+
+    // ===== CHARTS =====
+    loadChart(allBookings);
+    loadStatusChart(allBookings);
+  }
+
+  function loadRecentBookings(bookings) {
+    let table = document.getElementById("recentBookingsTable");
+    table.innerHTML = "";
+
+    // Get last 5 bookings
+    let recent = bookings.slice(-5).reverse();
+
+    recent.forEach((b) => {
+      let statusClass = b.status === "Confirmed" ? "confirmed" : 
+                       b.status === "Pending" ? "pending" : "cancelled";
+      let row = `
+        <tr>
+          <td>${b.id || "N/A"}</td>
+          <td>${b.name}</td>
+          <td>${b.cruise}</td>
+          <td>${b.dateTime}</td>
+          <td><span class="status ${statusClass}">${b.status}</span></td>
+        </tr>
+      `;
+      table.innerHTML += row;
+    });
+
+    if (bookings.length === 0) {
+      table.innerHTML = "<tr><td colspan='5' style='text-align: center; color: #94a3b8; padding: 30px;'>No bookings yet</td></tr>";
+    }
+  }
+
+  function loadBookingsTable(bookings) {
+    let table = document.getElementById("bookingTable");
+    table.innerHTML = "";
+
+    bookings.forEach((b) => {
+      let statusClass = b.status === "Confirmed" ? "confirmed" : 
+                       b.status === "Pending" ? "pending" : "cancelled";
+      let row = `
+        <tr>
+          <td>${b.id || "N/A"}</td>
+          <td>${b.name}</td>
+          <td>${b.email}</td>
+          <td>${b.cruise}</td>
+          <td>${b.passengers || "N/A"}</td>
+          <td>${b.amount}</td>
+          <td>${b.travelDate || "N/A"}</td>
+          <td>${b.dateTime}</td>
+          <td><span class="status ${statusClass}">${b.status}</span></td>
+        </tr>
+      `;
+      table.innerHTML += row;
+    });
+
+    if (bookings.length === 0) {
+      table.innerHTML = "<tr><td colspan='9' style='text-align: center; color: #94a3b8; padding: 30px;'>No bookings found</td></tr>";
+    }
+  }
+
+  function loadChart(bookings) {
+    let dateMap = {};
+
+    bookings.forEach(b => {
+      let date = b.dateTime.split(",")[0];
+      dateMap[date] = (dateMap[date] || 0) + 1;
+    });
+
+    let labels = Object.keys(dateMap).sort();
+    let data = labels.map(label => dateMap[label]);
+
+    const ctx = document.getElementById("bookingChart");
+    
+    if (window.bookingChartInstance) {
+      window.bookingChartInstance.destroy();
+    }
+
+    window.bookingChartInstance = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: labels,
+        datasets: [{
+          label: "Bookings Per Day",
+          data: data,
+          backgroundColor: "rgba(59, 130, 246, 0.1)",
+          borderColor: "#3b82f6",
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 6,
+          pointBackgroundColor: "#3b82f6",
+          pointBorderColor: "#fff",
+          pointBorderWidth: 2,
+          pointHoverRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            labels: { font: { size: 14, weight: '600' }, padding: 20, usePointStyle: true }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            stepSize: 1,
+            grid: { color: "#e5e7eb", drawBorder: false },
+            ticks: { color: "#64748b", font: { size: 12 } }
+          },
+          x: {
+            grid: { color: "#e5e7eb", drawBorder: false },
+            ticks: { color: "#64748b", font: { size: 12 } }
+          }
+        }
+      }
+    });
+  }
+
+  function loadStatusChart(bookings) {
+    let statusMap = {};
+
+    bookings.forEach(b => {
+      statusMap[b.status] = (statusMap[b.status] || 0) + 1;
+    });
+
+    let labels = Object.keys(statusMap);
+    let data = labels.map(label => statusMap[label]);
+
+    const ctx = document.getElementById("statusChart");
+    
+    if (window.statusChartInstance) {
+      window.statusChartInstance.destroy();
+    }
+
+    window.statusChartInstance = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: labels,
+        datasets: [{
+          label: "Bookings by Status",
+          data: data,
+          backgroundColor: ["#16a34a", "#f59e0b", "#ef4444", "#6366f1"],
+          borderColor: "#fff",
+          borderWidth: 3
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: "bottom",
+            labels: { font: { size: 13, weight: '600' }, padding: 20, usePointStyle: true }
+          }
+        }
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

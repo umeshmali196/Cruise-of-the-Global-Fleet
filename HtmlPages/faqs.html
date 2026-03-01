@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs - OceanVoyage Luxury Cruises</title>
+    <link rel="stylesheet" href="Home.css">
+    <style>
+        /* FAQ Page Styles */
+        .faq-hero {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .faq-hero h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin: 0 0 12px 0;
+        }
+
+        .faq-hero p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+
+        .faq-search {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .faq-search input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .faq-search input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .faq-categories {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .faq-category-btn {
+            padding: 8px 16px;
+            background: #f1f5f9;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            color: #475569;
+            transition: all 0.3s ease;
+        }
+
+        .faq-category-btn:hover,
+        .faq-category-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .faq-item {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: #3b82f6;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            cursor: pointer;
+            background: #f8fafc;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .faq-question:hover {
+            background: #f1f5f9;
+        }
+
+        .faq-question-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: #0f172a;
+            flex: 1;
+        }
+
+        .faq-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3b82f6;
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: white;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-answer-text {
+            padding: 0 16px 16px;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #475569;
+        }
+
+        .faq-answer-text a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .faq-answer-text a:hover {
+            text-decoration: underline;
+        }
+
+        .faq-section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 30px 0 16px 0;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .faq-not-found {
+            text-align: center;
+            padding: 40px 20px;
+            color: #94a3b8;
+        }
+
+        .faq-contact-cta {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .faq-contact-cta h2 {
+            margin: 0 0 12px 0;
+            font-size: 24px;
+        }
+
+        .faq-contact-cta p {
+            margin: 0 0 16px 0;
+            opacity: 0.9;
+        }
+
+        .faq-contact-btn {
+            display: inline-block;
+            background: white;
+            color: #1e40af;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .faq-contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .faq-hero h1 {
+                font-size: 28px;
+            }
+
+            .faq-search {
+                flex-direction: column;
+            }
+
+            .faq-question {
+                padding: 12px;
+            }
+
+            .faq-question-text {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation (same as Home.html) -->
+    <nav class="nav" style="background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%); padding: 16px 20px;">
+        <div class="nav-brand" style="color: white; font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+            <span>⚓</span> OceanVoyage
+        </div>
+        <div class="nav-links" style="display: flex; gap: 24px;">
+            <a href="Home.html" style="color: white; text-decoration: none;">Home</a>
+            <a href="search.html" style="color: white; text-decoration: none;">Cruises</a>
+            <a href="faqs.html" style="color: #fbbf24; text-decoration: none; font-weight: 600;">FAQs</a>
+            <a href="booking-terms.html" style="color: white; text-decoration: none;">Booking Terms</a>
+        </div>
+        <a href="login.html" style="color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 8px 14px; border-radius: 6px;">Sign In</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="faq-hero">
+        <h1>❓ Frequently Asked Questions</h1>
+        <p>Find answers to common questions about our cruises and services</p>
+    </div>
+
+    <!-- Main Container -->
+    <div class="faq-container">
+        <!-- Search Bar -->
+        <div class="faq-search">
+            <input type="text" id="faqSearch" placeholder="🔍 Search FAQs...">
+        </div>
+
+        <!-- Category Filters -->
+        <div class="faq-categories">
+            <button class="faq-category-btn active" data-category="all">All</button>
+            <button class="faq-category-btn" data-category="booking">Booking</button>
+            <button class="faq-category-btn" data-category="payment">Payment</button>
+            <button class="faq-category-btn" data-category="policies">Policies</button>
+            <button class="faq-category-btn" data-category="onboard">On Board</button>
+        </div>
+
+        <!-- FAQ List -->
+        <div id="faqList"></div>
+
+        <!-- Not Found Message -->
+        <div id="faqNotFound" class="faq-not-found" style="display:none;">
+            <p style="font-size: 16px; margin-bottom: 12px;">😕 No FAQs found matching your search</p>
+            <p>Try different keywords or contact our support team</p>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="faq-contact-cta">
+            <h2>Still have questions?</h2>
+            <p>Our support team is here to help!</p>
+            <a href="mailto:cruisocean@gmail.com" class="faq-contact-btn">📧 Contact Support</a>
+            <div style="margin-top: 12px;">
+                <p style="margin: 0; font-size: 14px;">📞 +91 8778878888 • Mon–Fri 9:00–18:00</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top: 60px;">
+        <div class="container" style="max-width: 1200px; margin: 0 auto;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-bottom: 24px;">
+                <div>
+                    <h3 style="color: white; margin-bottom: 12px;">OceanVoyage</h3>
+                    <p>Creating unforgettable cruise experiences since 1995</p>
+                </div>
+                <div>
+                    <h3 style="color: white; margin-bottom: 12px;">Quick Links</h3>
+                    <ul style="list-style: none; margin: 0; padding: 0;">
+                        <li style="margin-bottom: 8px;"><a href="Home.html" style="color: #d1d5db; text-decoration: none;">Home</a></li>
+                        <li style="margin-bottom: 8px;"><a href="search.html" style="color: #d1d5db; text-decoration: none;">Cruises</a></li>
+                        <li style="margin-bottom: 8px;"><a href="faqs.html" style="color: #d1d5db; text-decoration: none;">FAQs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: white; margin-bottom: 12px;">Contact</h3>
+                    <ul style="list-style: none; margin: 0; padding: 0;">
+                        <li style="margin-bottom: 8px;"><a href="mailto:cruisocean@gmail.com" style="color: #d1d5db; text-decoration: none;">cruisocean@gmail.com</a></li>
+                        <li><a href="tel:+918778878888" style="color: #d1d5db; text-decoration: none;">+91 8778878888</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px;">
+                <p>&copy; 2025 OceanVoyage. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Data
+        const faqData = [
+            // Booking Category
+            {
+                category: 'booking',
+                question: 'How do I book a cruise?',
+                answer: 'Simply visit our <a href="search.html">Search Cruises</a> page, select your preferred cruise, choose cabin type, and proceed to checkout. You can also call our support team at +91 8778878888 for personalized assistance.'
+            },
+            {
+                category: 'booking',
+                question: 'Can I modify my booking after confirmation?',
+                answer: 'Yes! You can modify dates, cabin upgrades, or add services within 30 days of your cruise. Contact our support team for changes. After 30 days, modifications may have restrictions.'
+            },
+            {
+                category: 'booking',
+                question: 'What is the cancellation policy?',
+                answer: 'Cancellations made 60+ days before departure receive a full refund. 30-60 days: 50% refund. Less than 30 days: No refund. Travel insurance is recommended to protect your investment.'
+            },
+            {
+                category: 'booking',
+                question: 'Do children get discounts?',
+                answer: 'Yes! Children (ages 2-12) typically receive 20-30% discount. Children under 2 sail free (limited facilities). Prices vary by cruise. Check specific cruise details for rates.'
+            },
+
+            // Payment Category
+            {
+                category: 'payment',
+                question: 'What payment methods do you accept?',
+                answer: 'We accept Visa, Mastercard, PayPal, Apple Pay, Google Pay, and UPI. All payments are encrypted with SSL security.'
+            },
+            {
+                category: 'payment',
+                question: 'Is my payment information secure?',
+                answer: 'Absolutely! We use 256-bit SSL encryption and PCI-DSS compliance. Your credit card details are never stored on our servers.'
+            },
+            {
+                category: 'payment',
+                question: 'Do you offer payment plans?',
+                answer: 'Yes! For bookings over $2000, we offer flexible payment plans with 0% interest. You can pay in 3, 6, or 12 installments. Terms apply.'
+            },
+            {
+                category: 'payment',
+                question: 'What currency do you accept?',
+                answer: 'We accept USD, EUR, GBP, INR, and AUD. Currency conversion is done at real-time rates. Indian customers can pay in INR directly.'
+            },
+
+            // Policies Category
+            {
+                category: 'policies',
+                question: 'What documents do I need for international cruises?',
+                answer: 'Valid passport (6+ months validity), visa if required for destination countries, and travel insurance. We recommend checking embassy requirements for your specific cruise destination.'
+            },
+            {
+                category: 'policies',
+                question: 'Do you provide travel insurance?',
+                answer: 'We offer optional comprehensive travel insurance covering trip cancellation, medical emergencies, and baggage loss. Insurance can be purchased during booking.'
+            },
+            {
+                category: 'policies',
+                question: 'What is your privacy policy?',
+                answer: 'We protect your personal data according to GDPR and local laws. Your information is used only for bookings and customer service. We never share data with third parties without consent.'
+            },
+            {
+                category: 'policies',
+                question: 'Can I bring guests on the cruise?',
+                answer: 'Only registered passengers can board. You can invite friends/family to join by creating separate bookings. Group discounts available for 10+ bookings.'
+            },
+
+            // On Board Category
+            {
+                category: 'onboard',
+                question: 'What is included in the cruise price?',
+                answer: 'Cabin, all meals (breakfast, lunch, dinner), entertainment, most onboard activities, and fitness facilities. Alcohol, spa, casino, and shore excursions are usually extra.'
+            },
+            {
+                category: 'onboard',
+                question: 'Can I bring alcohol onboard?',
+                answer: 'Guests can bring wine (2 bottles) or champagne onboard. Outside alcohol is prohibited in public areas. The ship offers duty-free shopping for additional beverages.'
+            },
+            {
+                category: 'onboard',
+                question: 'What are the dining options?',
+                answer: 'We offer multiple restaurants: main dining room, casual buffet, specialty restaurants, and 24/7 room service. Special dietary requirements (vegan, gluten-free, etc.) can be requested during booking.'
+            },
+            {
+                category: 'onboard',
+                question: 'What activities are available onboard?',
+                answer: 'Swimming, fitness classes, live shows, comedy nights, cooking classes, spa treatments, casino, kids clubs, and more. Activities vary by ship. Check your cruise itinerary for details.'
+            },
+            {
+                category: 'onboard',
+                question: 'Can I celebrate special occasions onboard?',
+                answer: 'Absolutely! We offer birthday packages, anniversary celebrations, and group events. Contact us in advance to arrange cakes, decorations, and special dinner reservations.'
+            }
+        ];
+
+        let currentCategory = 'all';
+        let currentSearch = '';
+
+        function renderFAQs() {
+            const list = document.getElementById('faqList');
+            list.innerHTML = '';
+
+            const filtered = faqData.filter(faq => {
+                const matchCategory = currentCategory === 'all' || faq.category === currentCategory;
+                const matchSearch = faq.question.toLowerCase().includes(currentSearch) ||
+                                   faq.answer.toLowerCase().includes(currentSearch);
+                return matchCategory && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                document.getElementById('faqNotFound').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('faqNotFound').style.display = 'none';
+
+            let lastCategory = '';
+            filtered.forEach((faq, index) => {
+                if (faq.category !== lastCategory) {
+                    const title = document.createElement('div');
+                    title.className = 'faq-section-title';
+                    title.textContent = faq.category.charAt(0).toUpperCase() + faq.category.slice(1);
+                    list.appendChild(title);
+                    lastCategory = faq.category;
+                }
+
+                const item = document.createElement('div');
+                item.className = 'faq-item';
+                item.innerHTML = `
+                    <div class="faq-question">
+                        <div class="faq-question-text">${faq.question}</div>
+                        <div class="faq-icon">▼</div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-text">${faq.answer}</div>
+                    </div>
+                `;
+
+                item.querySelector('.faq-question').addEventListener('click', () => {
+                    item.classList.toggle('active');
+                });
+
+                list.appendChild(item);
+            });
+        }
+
+        // Event Listeners
+        document.getElementById('faqSearch').addEventListener('input', (e) => {
+            currentSearch = e.target.value.toLowerCase();
+            renderFAQs();
+        });
+
+        document.querySelectorAll('.faq-category-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.faq-category-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCategory = btn.dataset.category;
+                renderFAQs();
+            });
+        });
+
+        // Initial render
+        renderFAQs();
+    </script>
+</body>
+</html>

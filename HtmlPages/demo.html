@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dynamic Cruise Booking</title>
+<link rel="stylesheet" href="booking.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="booking-wrapper">
+
+  <!-- ✅ LEFT SIDE : FORM -->
+  <div class="booking-form">
+
+    <!-- ✅ Personal Info -->
+    <div class="section-card">
+      <h3><i class="fa-solid fa-user"></i> Personal Information</h3>
+      <div class="special-grid">
+
+        <div class="special-field">
+          <i class="fa fa-user"></i>
+          <input type="text" placeholder="Full Name">
+        </div>
+
+        <div class="special-field">
+          <i class="fa fa-phone"></i>
+          <input type="tel" placeholder="Phone Number">
+        </div>
+
+        <div class="special-field">
+          <i class="fa fa-envelope"></i>
+          <input type="email" placeholder="Email Address">
+        </div>
+
+        <div class="special-field">
+          <i class="fa fa-calendar"></i>
+          <input type="date">
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ✅ ID Proof -->
+    <div class="section-card">
+      <h3><i class="fa-solid fa-id-card"></i> ID Proof Details</h3>
+      <div class="special-grid">
+
+        <div class="special-field">
+          <i class="fa fa-id-card"></i>
+          <select>
+            <option>Select ID Proof</option>
+            <option>Aadhar</option>
+            <option>PAN</option>
+            <option>Passport</option>
+          </select>
+        </div>
+
+        <div class="special-field">
+          <i class="fa fa-file"></i>
+          <input type="file">
+        </div>
+
+        <div class="special-field">
+          <i class="fa fa-hashtag"></i>
+          <input type="text" placeholder="ID Number">
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ✅ Travel Details -->
+    <div class="section-card">
+      <h3><i class="fa-solid fa-suitcase-rolling"></i> Travel Details</h3>
+      <div class="special-grid">
+
+        <div class="special-field">
+          <i class="fa fa-calendar-day"></i>
+          <input type="date">
+        </div>
+
+        <div class="special-field">
+          <i class="fa fa-users"></i>
+          <select>
+            <option>1 Guest</option>
+            <option>2 Guests</option>
+            <option>3 Guests</option>
+          </select>
+        </div>
+
+        <div class="special-field">
+          <i class="fa fa-bed"></i>
+          <input id="cabinInput" readonly>
+        </div>
+
+        <div class="special-field">
+          <i class="fa fa-pen"></i>
+          <input placeholder="Special Request">
+        </div>
+
+      </div>
+    </div>
+
+    <button class="payment-btn">Proceed to Payment</button>
+  </div>
+
+  <!-- ✅ RIGHT SIDE : DYNAMIC SUMMARY -->
+  <div class="booking-summary">
+    <h2>Complete Your Booking</h2>
+
+    <p><strong>Cruise:</strong> <span id="summaryCruise">---</span></p>
+    <p><strong>Cabin Type:</strong> <span id="summaryCabin">---</span></p>
+    <p class="price">₹ <span id="summaryPrice">0</span></p>
+
+  </div>
+
+</div>
+
+<script src="booking.js"></script>
+</body>
+</html>

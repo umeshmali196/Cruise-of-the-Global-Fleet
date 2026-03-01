@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Book Your Cruise - CruiseHub</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .booking-container {
+      max-width: 900px;
+      margin: 40px auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .booking-sidebar {
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      color: white;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .booking-sidebar h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .booking-sidebar p {
+      font-size: 14px;
+      line-height: 1.8;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+
+    .booking-features {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .feature-icon {
+      background: rgba(102, 126, 234, 0.2);
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #667eea;
+      flex-shrink: 0;
+    }
+
+    .feature-text h4 {
+      font-size: 14px;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .feature-text p {
+      font-size: 12px;
+      opacity: 0.7;
+      margin: 0;
+    }
+
+    .booking-form-container {
+      background: #ffffff;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .booking-form-container h3 {
+      font-size: 22px;
+      color: #2c3e50;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .booking-form-container > p {
+      color: #7f8c8d;
+      font-size: 13px;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #ecf0f1;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      background: #f8f9fa;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #bdc3c7;
+    }
+
+    .required {
+      color: #e74c3c;
+    }
+
+    .form-divider {
+      height: 1px;
+      background: #ecf0f1;
+      margin: 25px 0;
+    }
+
+    .submit-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 15px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Modal Styles */
+    .modal {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      visibility: hidden;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .modal.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .modal-card {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      max-width: 450px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 35px;
+      margin: 0 auto 20px;
+    }
+
+    .modal-card h3 {
+      font-size: 24px;
+      color: #2c3e50;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .modal-card p {
+      color: #7f8c8d;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .booking-id {
+      background: #ecf0f1;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      color: #667eea;
+      margin: 20px 0;
+      font-size: 16px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 25px;
+    }
+
+    .modal-actions button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-secondary {
+      background: #ecf0f1;
+      color: #2c3e50;
+      border: 2px solid #bdc3c7;
+    }
+
+    .btn-secondary:hover {
+      background: #bdc3c7;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .booking-container {
+        grid-template-columns: 1fr;
+      }
+
+      .booking-sidebar {
+        padding: 30px;
+      }
+
+      .booking-form-container {
+        padding: 30px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<div class="booking-container">
+  <!-- Sidebar -->
+  <div class="booking-sidebar">
+    <h2>🌊 Luxury Cruise Booking</h2>
+    <p>Experience the ultimate voyage across exotic destinations. Secure your spot on one of our premium cruise ships today.</p>
+
+    <div class="booking-features">
+      <div class="feature">
+        <div class="feature-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <div class="feature-text">
+          <h4>Secure Booking</h4>
+          <p>100% safe and encrypted transactions</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <i class="fas fa-headset"></i>
+        </div>
+        <div class="feature-text">
+          <h4>24/7 Support</h4>
+          <p>Dedicated customer service team ready to help</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <i class="fas fa-undo"></i>
+        </div>
+        <div class="feature-text">
+          <h4>Flexible Cancellation</h4>
+          <p>Cancel up to 14 days before departure</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">
+          <i class="fas fa-award"></i>
+        </div>
+        <div class="feature-text">
+          <h4>Best Price Guarantee</h4>
+          <p>Lowest rates compared to competitors</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div class="booking-form-container">
+    <h3>Book Your Cruise</h3>
+    <p>Complete the form below to reserve your voyage</p>
+
+    <form id="bookingForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name <span class="required">*</span></label>
+          <input type="text" id="firstName" required placeholder="John" />
+        </div>
+        <div class="form-group">
+          <label>Last Name <span class="required">*</span></label>
+          <input type="text" id="lastName" required placeholder="Doe" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email Address <span class="required">*</span></label>
+          <input type="email" id="email" required placeholder="john@example.com" />
+        </div>
+        <div class="form-group">
+          <label>Phone Number <span class="required">*</span></label>
+          <input type="tel" id="phone" required placeholder="+1 (555) 000-0000" />
+        </div>
+      </div>
+
+      <div class="form-divider"></div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Cruise Name <span class="required">*</span></label>
+          <input type="text" id="cabinName" required placeholder="e.g., Caribbean Paradise" />
+        </div>
+        <div class="form-group">
+          <label>Price Per Person <span class="required">*</span></label>
+          <input type="text" id="cabinPrice" required placeholder="$1,500" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Number of Passengers <span class="required">*</span></label>
+          <input type="number" id="totalPassengers" min="1" max="10" required placeholder="2" />
+        </div>
+        <div class="form-group">
+          <label>Travel Date <span class="required">*</span></label>
+          <input type="date" id="travelDate" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Route / Destination <span class="required">*</span></label>
+        <input type="text" id="route" required placeholder="e.g., Miami → Bahamas → Cayman Islands" />
+      </div>
+
+      <div class="form-group">
+        <label>Special Requests</label>
+        <textarea id="specialRequests" rows="3" placeholder="Any dietary restrictions, accessibility needs, or special occasions?"></textarea>
+      </div>
+
+      <button type="submit" id="confirmBookingBtn" class="submit-btn">
+        <i class="fas fa-check-circle"></i> Confirm Booking
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div id="confirmModal" class="modal" role="dialog" aria-hidden="true">
+  <div class="modal-card">
+    <div class="modal-icon">
+      <i class="fas fa-check"></i>
+    </div>
+    <h3 id="modalTitle">Booking Confirmed!</h3>
+    <p id="modalMsg">Your cruise reservation has been successfully saved.</p>
+    <div class="booking-id" id="bookingIdDisplay">BK-1234567890</div>
+    <p style="font-size: 12px; color: #95a5a6;">A confirmation email will be sent to your inbox shortly.</p>
+    <div class="modal-actions">
+      <button id="downloadNow" class="btn-primary">
+        <i class="fas fa-download"></i> Download Receipt
+      </button>
+      <button id="gotoSuccess" class="btn-secondary">
+        <i class="fas fa-arrow-right"></i> Continue
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const booking = {
+      id: 'BK-' + Date.now(),
+      name: (document.getElementById('firstName').value.trim() + ' ' + document.getElementById('lastName').value.trim()).trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      cruise: document.getElementById('cabinName').value.trim(),
+      amount: document.getElementById('cabinPrice').value.trim(),
+      passengers: document.getElementById('totalPassengers').value,
+      travelDate: document.getElementById('travelDate').value,
+      route: document.getElementById('route').value.trim(),
+      specialRequests: document.getElementById('specialRequests').value.trim(),
+      status: 'Confirmed',
+      dateTime: new Date().toLocaleString(),
+      timestamp: Date.now()
+    };
+
+    // Store booking
+    const all = JSON.parse(localStorage.getItem('adminBookings')) || [];
+    all.push(booking);
+    localStorage.setItem('adminBookings', JSON.stringify(all));
+    localStorage.setItem('lastBookingId', booking.id);
+
+    // Show modal
+    const modal = document.getElementById('confirmModal');
+    document.getElementById('bookingIdDisplay').innerText = booking.id;
+    modal.classList.add('show');
+
+    // Download handler
+    document.getElementById('downloadNow').onclick = () => { generatePDF(booking); };
+
+    // Success page handler
+    document.getElementById('gotoSuccess').onclick = () => {
+      window.location.href = 'booking-success.html?id=' + encodeURIComponent(booking.id);
+    };
+
+    // Auto-redirect after 1.2s
+    setTimeout(() => {
+      if (modal.classList.contains('show')) {
+        window.location.href = 'booking-success.html?id=' + encodeURIComponent(booking.id);
+      }
+    }, 1200);
+  });
+
+  // Professional PDF Receipt
+  function generatePDF(b) {
+    try {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const pageWidth = doc.internal.pageSize.getWidth();
+      let y = 15;
+      const left = 12;
+
+      // Header
+      doc.setFillColor(102, 126, 234);
+      doc.rect(0, 0, pageWidth, 25, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(20);
+      doc.text('🚢 CruiseHub', left, y + 10);
+      doc.setFontSize(10);
+      doc.text('Booking Receipt', pageWidth - left - 30, y + 10);
+
+      y += 25;
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(12);
+      doc.text('Booking Confirmation', left, y);
+
+      y += 10;
+      doc.setFontSize(10);
+      doc.setTextColor(127, 140, 141);
+      doc.text('Date: ' + new Date().toLocaleDateString(), left, y);
+      y += 7;
+
+      // Divider
+      doc.setDrawColor(236, 240, 241);
+      doc.line(left, y, pageWidth - left, y);
+      y += 10;
+
+      // Booking Details Section
+      doc.setTextColor(44, 62, 80);
+      doc.setFontSize(11);
+      doc.setFont(undefined, 'bold');
+      doc.text('Booking Details', left, y);
+      y += 8;
+
+      doc.setFont(undefined, 'normal');
+      doc.setFontSize(10);
+      const details = [
+        ['Booking ID', b.id],
+        ['Full Name', b.name],
+        ['Email', b.email],
+        ['Phone', b.phone]
+      ];
+
+      details.forEach(detail => {
+        doc.setTextColor(127, 140, 141);
+        doc.text(detail[0] + ':', left, y);
+        doc.setTextColor(44, 62, 80);
+        doc.text(detail[1], left + 40, y);
+        y += 6;
+      });
+
+      y += 5;
+      doc.line(left, y, pageWidth - left, y);
+      y += 8;
+
+      // Cruise Details
+      doc.setTextColor(44, 62, 80);
+      doc.setFont(undefined, 'bold');
+      doc.setFontSize(11);
+      doc.text('Cruise Details', left, y);
+      y += 8;
+
+      doc.setFont(undefined, 'normal');
+      doc.setFontSize(10);
+      const cruiseDetails = [
+        ['Cruise', b.cruise],
+        ['Route', b.route],
+        ['Travel Date', b.travelDate],
+        ['Passengers', b.passengers],
+        ['Price Per Person', b.amount]
+      ];
+
+      cruiseDetails.forEach(detail => {
+        doc.setTextColor(127, 140, 141);
+        doc.text(detail[0] + ':', left, y);
+        doc.setTextColor(44, 62, 80);
+        doc.text(detail[1], left + 40, y);
+        y += 6;
+      });
+
+      if (b.specialRequests) {
+        y += 2;
+        doc.setTextColor(127, 140, 141);
+        doc.text('Special Requests:', left, y);
+        y += 5;
+        doc.setTextColor(44, 62, 80);
+        const specialReqLines = doc.splitTextToSize(b.specialRequests, pageWidth - 2 * left - 40);
+        specialReqLines.forEach(line => {
+          doc.text(line, left + 40, y);
+          y += 5;
+        });
+      }
+
+      y += 10;
+      doc.setDrawColor(236, 240, 241);
+      doc.line(left, y, pageWidth - left, y);
+      y += 8;
+
+      // Footer
+      doc.setTextColor(127, 140, 141);
+      doc.setFontSize(9);
+      doc.text('Thank you for choosing CruiseHub. Have a wonderful voyage!', left, y);
+      y += 5;
+      doc.text('For support, contact us at: support@cruisehub.com', left, y);
+
+      const filename = b.id + '-receipt.pdf';
+      doc.save(filename);
+    } catch (err) {
+      console.error(err);
+      alert('Failed to generate PDF. Please try again.');
+    }
+  }
+</script>
+
+</body>
+</html>

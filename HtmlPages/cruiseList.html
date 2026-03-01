@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Available Cruises</title>
+  <link rel="stylesheet" href="css/cruiseList.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>🌊 Explore Available Cruises</h1>
+    <p>Choose from our top-rated luxury voyages around the world.</p>
+    <input type="text" id="searchBar" placeholder="Search by destination or cruise name..." />
+  </header>
+
+  <main id="cruiseContainer" class="cruise-grid">
+    <!-- Cruises load dynamically -->
+  </main>
+
+  <script>
+    const cruises = [
+      {
+        id: 1,
+        name: "Caribbean Paradise",
+        duration: "7 Days / 6 Nights",
+        price: "$1,299",
+        location: "Caribbean Islands",
+        image: "images/caribbean.jpg",
+        desc: "Sunny beaches, turquoise waters and exotic vibes await you."
+      },
+      {
+        id: 2,
+        name: "Mediterranean Escape",
+        duration: "10 Days / 9 Nights",
+        price: "$2,499",
+        location: "Mediterranean Coast",
+        image: "images/mediterranean.jpg",
+        desc: "Sail through Europe’s most scenic coastal cities in luxury."
+      },
+      {
+        id: 3,
+        name: "Alaska Adventure",
+        duration: "8 Days / 7 Nights",
+        price: "$1,899",
+        location: "Alaska & Canada",
+        image: "images/alaska.jpg",
+        desc: "Witness glaciers and northern lights like never before."
+      }
+    ];
+
+    const container = document.getElementById("cruiseContainer");
+
+    function loadCruises(list) {
+      container.innerHTML = list.map(c => `
+        <div class="cruise-card">
+          <img src="${c.image}" alt="${c.name}">
+          <div class="card-body">
+            <h2>${c.name}</h2>
+            <p>${c.desc}</p>
+            <p><b>🗓 ${c.duration}</b></p>
+            <p><b>📍 ${c.location}</b></p>
+            <h3>${c.price}</h3>
+            <button onclick="viewDetails(${c.id})">View Details</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function viewDetails(id) {
+      window.location.href = cruiseDetails.html?id=${id};
+    }
+
+    // Initial load
+    loadCruises(cruises);
+
+    // Search filter
+    document.getElementById("searchBar").addEventListener("input", (e) => {
+      const query = e.target.value.toLowerCase();
+      const filtered = cruises.filter(c =>
+        c.name.toLowerCase().includes(query) ||
+        c.location.toLowerCase().includes(query)
+      );
+      loadCruises(filtered);
+    });
+  </script>
+</body>
+</html>

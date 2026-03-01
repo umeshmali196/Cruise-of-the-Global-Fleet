@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile Dropdown</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            padding: 40px;
+        }
+
+        header {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .user-profile {
+            position: relative;
+        }
+
+        .profile-button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+            background: #2563eb;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .user-name {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .user-status {
+            font-size: 12px;
+            color: green;
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 10px);
+            width: 260px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px) scale(0.95);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Header */
+        .dropdown-header {
+            background: linear-gradient(to right, #2563eb, #1d4ed8);
+            padding: 20px;
+            color: white;
+        }
+
+        .dropdown-user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dropdown-avatar {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .dropdown-user-details p:first-child {
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .dropdown-user-details p:last-child {
+            font-size: 12px;
+            color: #bfdbfe;
+            margin: 3px 0 0;
+        }
+
+        /* Menu Items */
+        .dropdown-items {
+            padding: 8px 0;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #374151;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background: #eff6ff;
+            color: #2563eb;
+            padding-left: 22px;
+        }
+
+        .dropdown-item.danger {
+            color: #dc2626;
+        }
+
+        .dropdown-item.danger:hover {
+            background: #fef2f2;
+        }
+
+        .dropdown-item i {
+            width: 20px;
+            font-size: 18px;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dropdown-item {
+            animation: fadeIn 0.3s ease-out forwards;
+            opacity: 0;
+        }
+
+        .dropdown-menu.active .dropdown-item:nth-child(1) { animation-delay: 0.05s; }
+        .dropdown-menu.active .dropdown-item:nth-child(2) { animation-delay: 0.1s; }
+        .dropdown-menu.active .dropdown-item:nth-child(3) { animation-delay: 0.15s; }
+        .dropdown-menu.active .dropdown-item:nth-child(4) { animation-delay: 0.2s; }
+        .dropdown-menu.active .dropdown-item:nth-child(5) { animation-delay: 0.25s; }
+        .dropdown-menu.active .dropdown-item:nth-child(6) { animation-delay: 0.3s; }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .user-info {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="user-profile">
+        <button class="profile-button" id="profileButton">
+            <div class="avatar">JD</div>
+            <div class="user-info">
+                <span class="user-name">John Doe</span>
+                <span class="user-status">Premium Member</span>
+            </div>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+
+        <div class="dropdown-menu" id="dropdownMenu">
+            <div class="dropdown-header">
+                <div class="dropdown-user-info">
+                    <div class="dropdown-avatar">JD</div>
+                    <div class="dropdown-user-details">
+                        <p>John Doe</p>
+                        <p>john.doe@example.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dropdown-items">
+                <button class="dropdown-item" onclick="handleMenuClick('My Profile')">
+                    <i class="fas fa-user"></i> My Profile
+                </button>
+                <button class="dropdown-item" onclick="handleMenuClick('My Bookings')">
+                    <i class="fas fa-calendar"></i> My Bookings
+                </button>
+                <button class="dropdown-item" onclick="handleMenuClick('Favorites')">
+                    <i class="fas fa-heart"></i> Favorites
+                </button>
+                <button class="dropdown-item" onclick="handleMenuClick('Payment Methods')">
+                    <i class="fas fa-credit-card"></i> Payment Methods
+                </button>
+                <button class="dropdown-item" onclick="handleMenuClick('Settings')">
+                    <i class="fas fa-cog"></i> Settings
+                </button>
+                <button class="dropdown-item danger" onclick="handleMenuClick('Sign Out')">
+                    <i class="fas fa-sign-out-alt"></i> Sign Out
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script>
+    const profileButton = document.getElementById('profileButton');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    profileButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('active');
+    });
+
+    document.addEventListener('click', () => {
+        dropdownMenu.classList.remove('active');
+    });
+
+    function handleMenuClick(action) {
+        alert('You clicked: ' + action);
+        dropdownMenu.classList.remove('active');
+    }
+
+    dropdownMenu.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+</script>
+
+</body>
+</html>

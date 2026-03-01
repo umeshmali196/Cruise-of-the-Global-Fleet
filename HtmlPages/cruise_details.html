@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cruise Details</title>
+  <link rel="stylesheet" href="details.css">
+</head>
+<body>
+  <header class="header">
+    <h1 id="cruiseTitle">Cruise Details</h1>
+  </header>
+
+  <section class="details">
+    <h2>Overview</h2>
+    <p id="overview">Loading cruise details...</p>
+
+    <h2>Highlights</h2>
+    <ul>
+      <li>Luxury cabins and ocean views</li>
+      <li>Multiple restaurants and pools</li>
+      <li>Exclusive evening shows and entertainment</li>
+    </ul>
+
+    <h2>Amenities</h2>
+    <ul>
+      <li>Free Wi-Fi</li>
+      <li>24x7 Room Service</li>
+      <li>Fitness Center, Spa & Sauna</li>
+      <li>Children’s Play Area</li>
+    </ul>
+
+    <div class="price">
+      <p>Starting from <span id="price">$0</span></p>
+    </div>
+
+    <button id="bookBtn" class="btn-primary">Book Now</button>
+  </section>
+
+  <!-- Booking Form Modal -->
+  <div id="bookingModal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Book Your Cruise</h2>
+      <form id="bookingForm">
+        <input type="text" id="name" placeholder="Full Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="number" id="guests" placeholder="Number of Guests" min="1" required>
+        <input type="date" id="date" required>
+        <button type="submit" class="btn-primary">Confirm Booking</button>
+      </form>
+      <button id="closeModal" class="btn-secondary">Close</button>
+    </div>
+  </div>
+
+  <script src="details.js"></script>
+</body>
+</html>

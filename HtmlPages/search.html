@@ -1,0 +1,44 @@
+<!-- ...existing code... -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Explore Cruises | OceanVoyage</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="search.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="Home.html" class="back-btn">← Back to Home</a>
+      <div class="brand">OceanVoyage</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="explore-hero">
+      <h1 class="hero-title">Explore All Cruises</h1>
+      <p class="hero-sub">Choose from luxury, adventure, romantic and family cruises across the world.</p>
+
+      <div class="search-wrap">
+        <input id="searchInput" class="search-input" type="search" placeholder="Search cruises by title, destination, days..." aria-label="Search cruises">
+        <button id="searchClear" class="search-clear" title="Clear"><i class="fa fa-times"></i></button>
+        <button id="searchBtn" class="search-go" title="Search"><i class="fa fa-search"></i></button>
+      </div>
+    </section>
+
+    <section class="cruises-section">
+      <h2 class="section-title">All Featured Cruises</h2>
+      <div id="cruises-grid" class="cruise-grid" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 OceanVoyage</p>
+  </footer>
+
+  <script src="search.js"></script>
+</body>
+</html>

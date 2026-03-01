@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cruise Details | OceanVoyage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="details.css">
+</head>
+<body>
+
+    <!-- Back Button -->
+    <div class="back-section">
+        <a href="Home.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Cruises</a>
+    </div>
+
+    <!-- Hero Image Section -->
+    <section class="hero-image">
+        <img id="cruiseImage" src="images/Premium-Cruise-Lines.jpg.webp" alt="Cruise" class="full-image">
+    </section>
+
+    <!-- About This Cruise -->
+    <section class="block about-section">
+        <div class="container">
+            <h2>About This Cruise</h2>
+            <p id="cruiseDesc">Experience luxury at sea with world-class amenities and unforgettable destinations.</p>
+            
+            <div class="cruise-meta">
+                <div class="meta-item">
+                    <i class="fas fa-calendar"></i>
+                    <div>
+                        <strong>Duration</strong>
+                        <p id="cruiseDays">7 nights</p>
+                    </div>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <strong>Destinations</strong>
+                        <p id="cruiseRoute">Mediterranean</p>
+                    </div>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-ship"></i>
+                    <div>
+                        <strong>Ship</strong>
+                        <p id="cruiseShip">Luxury Liner Pro</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Onboard Facilities -->
+    <section class="block facilities-section">
+        <div class="container">
+            <h2>Onboard Facilities</h2>
+            <div class="facilities-grid">
+                <div class="facility-card" onclick="selectFacility(this)">
+                    <img src="images/Wifi image.avif" alt="WiFi" class="facility-img">
+                    <div class="facility-overlay">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h4>High-Speed WiFi</h4>
+                    <p>Stay connected throughout</p>
+                </div>
+
+                <div class="facility-card" onclick="selectFacility(this)">
+                    <img src="images/Dine rest" alt="Dining" class="facility-img">
+                    <div class="facility-overlay">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h4>Fine Dining</h4>
+                    <p>5-star restaurants & buffets</p>
+                </div>
+
+                <div class="facility-card" onclick="selectFacility(this)">
+                    <img src="images/Enter ocean.jpg" alt="Entertainment" class="facility-img">
+                    <div class="facility-overlay">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h4>Live Entertainment</h4>
+                    <p>Daily shows & performances</p>
+                </div>
+
+                <div class="facility-card" onclick="selectFacility(this)">
+                    <img src="images/Theater.jpg" alt="Theater" class="facility-img">
+                    <div class="facility-overlay">
+                        <i class="fas fa-masks-theater"></i>
+                    </div>
+                    <h4>Theater</h4>
+                    <p>Broadway-style productions</p>
+                </div>
+
+                <div class="facility-card" onclick="selectFacility(this)">
+                    <img src="images/Cafes Bars.jpg" alt="Bars" class="facility-img">
+                    <div class="facility-overlay">
+                        <i class="fas fa-martini-glass"></i>
+                    </div>
+                    <h4>Cafes & Bars</h4>
+                    <p>Multiple lounges & bars</p>
+                </div>
+
+                <div class="facility-card" onclick="selectFacility(this)">
+                    <img src="images/swim.jpg" alt="Pool" class="facility-img">
+                    <div class="facility-overlay">
+                        <i class="fas fa-person-swimming"></i>
+                    </div>
+                    <h4>Swimming Pools</h4>
+                    <p>Multiple pools & hot tubs</p>
+                </div>
+
+                <div class="facility-card" onclick="selectFacility(this)">
+                    <img src="images/Ocean gym.jpg" alt="Gym" class="facility-img">
+                    <div class="facility-overlay">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h4>Fitness Center</h4>
+                    <p>State-of-the-art facilities</p>
+                </div>
+
+                <div class="facility-card" onclick="selectFacility(this)">
+                    <img src="images/Dutry free.jpg" alt="Shopping" class="facility-img">
+                    <div class="facility-overlay">
+                        <i class="fas fa-shop"></i>
+                    </div>
+                    <h4>Duty-Free Shopping</h4>
+                    <p>Luxury brands onboard</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Choose Your Cabin -->
+    <section class="block cabins-section">
+        <div class="container">
+            <h2>Choose Your Cabin Type</h2>
+            <div class="cabins-grid" id="cabinsContainer"></div>
+        </div>
+    </section>
+
+    <!-- Booking Summary -->
+    <section class="booking-summary" id="bookingSummary" style="display:none;">
+        <div class="container">
+            <h3>Booking Summary</h3>
+            <div class="summary-row">
+                <span>Selected Cabin:</span>
+                <strong id="summaryTitle">—</strong>
+            </div>
+            <div class="summary-row">
+                <span>Price per person:</span>
+                <strong id="summaryPrice">$0</strong>
+            </div>
+            <div class="summary-row">
+                <span>Number of guests:</span>
+                <input type="number" id="guestCount" min="1" max="4" value="1" class="input-small">
+            </div>
+            <div class="summary-row total">
+                <span>Total:</span>
+                <strong id="summaryTotal">$0</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- Book Now Button -->
+    <div class="button-section">
+        <button class="btn btn-primary btn-large" id="bookNowBtn" disabled>
+            <i class="fas fa-check-circle"></i> Proceed to Booking
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 OceanVoyage. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Sample cruise data (fetch from backend in production)
+        const cruiseData = {
+            id: 1,
+            name: 'Mediterranean Delight',
+            desc: 'Explore sun-drenched ports, historic towns, and azure waters across Greece, Italy, and Spain.',
+            days: '7 nights',
+            route: 'Greece → Italy → Spain',
+            ship: 'Luxury Liner Pro',
+            image: 'images/Premium-Cruise-Lines.jpg.webp',
+            cabins: [
+                { id: 1, type: 'Interior Cabin', price: 2899, image: 'images/Interior Cabin.jpg', features: ['Queen bed', 'Shower', 'TV', 'Minibar'] },
+                { id: 2, type: 'Ocean View', price: 3899, image: 'images/Ocean View cabin.jpg', features: ['Queen bed', 'Window', 'Shower', 'Minibar', 'Safe'] },
+                { id: 3, type: 'Balcony Suite', price: 5299, image: 'images/Private Balcony.jpg', features: ['King bed', 'Private balcony', 'Soaking tub', 'Walk-in closet'] },
+                { id: 4, type: 'Luxury Suite', price: 7999, image: 'images/Luxury suit.jpg', features: ['King bed', 'Large balcony', 'Jacuzzi', 'Butler service'] }
+            ]
+        };
+
+        let selectedCabin = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            populateCruiseData();
+            renderCabins();
+            setupGuestCountListener();
+        });
+
+        function populateCruiseData() {
+            document.getElementById('cruiseImage').src = cruiseData.image;
+            document.getElementById('cruiseDesc').textContent = cruiseData.desc;
+            document.getElementById('cruiseDays').textContent = cruiseData.days;
+            document.getElementById('cruiseRoute').textContent = cruiseData.route;
+            document.getElementById('cruiseShip').textContent = cruiseData.ship;
+        }
+
+        function renderCabins() {
+            const container = document.getElementById('cabinsContainer');
+            container.innerHTML = '';
+            
+            cruiseData.cabins.forEach(cabin => {
+                const card = document.createElement('div');
+                card.className = 'cabin-card';
+                card.innerHTML = `
+                    <div class="cabin-image-box">
+                        <img src="${cabin.image}" alt="${cabin.type}" class="cabin-img">
+                        <span class="cabin-price-tag">$${cabin.price}</span>
+                    </div>
+                    <div class="cabin-content">
+                        <h3>${cabin.type}</h3>
+                        <ul class="cabin-features">
+                            ${cabin.features.map(f => `<li><i class="fas fa-check"></i> ${f}</li>`).join('')}
+                        </ul>
+                        <button class="btn btn-secondary cabin-select-btn" onclick="selectCabinCard(${cabin.id}, '${cabin.type}', ${cabin.price})">
+                            Select Cabin
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function selectCabinCard(cabinId, cabinType, cabinPrice) {
+            selectedCabin = { id: cabinId, type: cabinType, price: cabinPrice };
+            
+            // Mark selected
+            document.querySelectorAll('.cabin-card').forEach(c => c.classList.remove('active'));
+            event.target.closest('.cabin-card').classList.add('active');
+
+            // Show summary
+            document.getElementById('bookingSummary').style.display = 'block';
+            document.getElementById('summaryTitle').textContent = cabinType;
+            document.getElementById('summaryPrice').textContent = `$${cabinPrice}`;
+            document.getElementById('bookNowBtn').disabled = false;
+
+            updateTotal();
+        }
+
+        function setupGuestCountListener() {
+            document.getElementById('guestCount').addEventListener('change', updateTotal);
+        }
+
+        function updateTotal() {
+            if (!selectedCabin) return;
+            const guests = Number(document.getElementById('guestCount').value);
+            const total = selectedCabin.price * guests;
+            document.getElementById('summaryTotal').textContent = `$${total.toLocaleString()}`;
+        }
+
+        function selectFacility(elem) {
+            document.querySelectorAll('.facility-card').forEach(e => e.classList.remove('active'));
+            elem.classList.add('active');
+        }
+
+        document.getElementById('bookNowBtn').addEventListener('click', () => {
+            if (!selectedCabin) {
+                alert('Please select a cabin first');
+                return;
+            }
+            
+            const guests = Number(document.getElementById('guestCount').value);
+            localStorage.setItem('selectedCabin', JSON.stringify({
+                cruiseId: cruiseData.id,
+                cabinType: selectedCabin.type,
+                cabinPrice: selectedCabin.price,
+                guests: guests,
+                total: selectedCabin.price * guests
+            }));
+
+            window.location.href = 'booking.html';
+        });
+    </script>
+    
+
+</body>
+</html> 

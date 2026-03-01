@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OceanVista Portal | Login</title>
+  <link rel="stylesheet" href="login.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+ 
+
+  <div class="login-container">
+    <div class="login-box">
+      <h2>Welcome Back</h2>
+      <p class="subtitle">Access your Cruise Management Dashboard</p>
+
+      <form id="loginForm" class="login-form">
+        <div class="input-field">
+          <label for="email">Username</label>
+          <input type="email" id="email" placeholder="Enter your email" required />
+        </div>
+
+        <div class="input-field">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter password" required />
+        </div>
+
+        <button type="submit" class="btn-login">Login</button>
+
+        <div class="links">
+          <p>Don’t have an account? <a href="register.html">Register</a></p>
+          <a href="Forgot Password.html" class="forgot">Forgot Password?</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+const form = document.getElementById("loginForm");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  // ✅ ADMIN LOGIN
+  if (email === "admin@cruise.com" && password === "admin123") {
+
+    let admin = {
+      name: "Admin",
+      email: email,
+      role: "admin"
+    };
+
+    sessionStorage.setItem("loggedUser", JSON.stringify(admin));
+
+    alert("🌊 Welcome Admin to CruiseHub Dashboard!");
+    window.location.href = "admin.html"; 
+  } 
+  
+  // ✅ PASSENGER LOGIN
+  else if (email === "user@cruise.com" && password === "user123") {
+
+    
+
+    // ✅ THIS IS MISSING IN YOUR CODE (MAIN FIX)
+    sessionStorage.setItem("loggedUser", JSON.stringify({
+      name: "Passenger User",
+      email: email,
+    }));
+  
+
+    alert("🛳 Welcome Aboard, Passenger!");
+    window.location.href = "Home.html"; 
+  } 
+  
+  // ❌ INVALID LOGIN
+  else {
+    alert("❌ Invalid credentials! Please check your email or password.");
+  }
+});
+</script>
+
+</body>
+</html>

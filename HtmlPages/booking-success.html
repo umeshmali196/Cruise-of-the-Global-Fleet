@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Booking Success — CruiseHub</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body{font-family:'Poppins',sans-serif;background:#f8fafc;padding:30px}
+    .card{max-width:820px;margin:30px auto;background:#fff;padding:28px;border-radius:12px;box-shadow:0 6px 18px rgba(15,23,42,0.06)}
+    h1{margin-bottom:6px}
+    .row{display:flex;gap:18px;flex-wrap:wrap}
+    .field{flex:1;min-width:200px;background:#f8fafc;padding:10px;border-radius:8px}
+    button{padding:10px 14px;border-radius:8px;border:none;background:#2563eb;color:#fff;cursor:pointer;margin-right:8px}
+    .btn-secondary{background:#6b7280}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>✅ Booking Success</h1>
+    <p id="sub" style="color:#6b7280">Thank you. Your booking is confirmed.</p>
+
+    <div id="details" style="margin-top:18px">
+      <!-- booking details inserted here -->
+    </div>
+
+    <div style="margin-top:18px">
+      <button id="downloadReceipt">⬇️ Download Receipt (PDF)</button>
+      <button id="printReceipt" class="btn-secondary">🖨 Print</button>
+      <button id="goAdmin" class="btn-secondary">Go to Admin</button>
+    </div>
+  </div>
+
+<script>
+  // get booking id from query or lastBookingId
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id') || localStorage.getItem('lastBookingId');
+
+  function findBooking(id) {
+    const all = JSON.parse(localStorage.getItem('adminBookings')) || [];
+    return all.find(b => b.id === id) || null;
+  }
+
+  const booking = id ? findBooking(id) : null;
+
+  const detailsEl = document.getElementById('details');
+  if (!booking) {
+    detailsEl.innerHTML = '<p style="color:#ef4444">Booking not found.</p>';
+  } else {
+    detailsEl.innerHTML = `
+      <div class="row">
+        <div class="field"><strong>Booking ID</strong><div>${booking.id}</div></div>
+        <div class="field"><strong>Name</strong><div>${booking.name}</div></div>
+        <div class="field"><strong>Email</strong><div>${booking.email}</div></div>
+        <div class="field"><strong>Phone</strong><div>${booking.phone}</div></div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <div class="field"><strong>Cruise</strong><div>${booking.cruise}</div></div>
+        <div class="field"><strong>Passengers</strong><div>${booking.passengers}</div></div>
+        <div class="field"><strong>Amount</strong><div>${booking.amount}</div></div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <div class="field"><strong>Travel Date</strong><div>${booking.travelDate}</div></div>
+        <div class="field"><strong>Route</strong><div>${booking.route}</div></div>
+        <div class="field"><strong>Confirmed At</strong><div>${booking.dateTime}</div></div>
+      </div>
+      <div style="margin-top:12px"><strong>Special Requests</strong><div style="margin-top:6px">${booking.specialRequests || '—'}</div></div>
+    `;
+  }
+
+  // download PDF
+  document.getElementById('downloadReceipt').addEventListener('click', () => {
+    if (!booking) return alert('No booking to download');
+    try {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      let y = 18;
+      const left = 12;
+      doc.setFontSize(16); doc.text('CruiseHub - Booking Receipt', left, y); y += 8;
+      doc.setFontSize(11);
+      const fields = [
+        ['Booking ID', booking.id],
+        ['Name', booking.name],
+        ['Email', booking.email],
+        ['Phone', booking.phone],
+        ['Cruise', booking.cruise],
+        ['Passengers', booking.passengers],
+        ['Amount', booking.amount],
+        ['Travel Date', booking.travelDate],
+        ['Route', booking.route],
+        ['Confirmed At', booking.dateTime],
+        ['Special Requests', booking.specialRequests || '—']
+      ];
+      fields.forEach(f => { doc.text(`${f[0]}: ${f[1]}`, left, y); y += 7; });
+      doc.save((booking.id || 'booking') + '-receipt.pdf');
+    } catch(e){
+      console.error(e);
+      alert('Failed to generate PDF');
+    }
+  });
+
+  document.getElementById('printReceipt').addEventListener('click', () => {
+    if (!booking) return alert('No booking to print');
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write('<html><head><title>Booking Receipt</title></head><body style="font-family:Arial;">');
+    printWindow.document.write('<h2>CruiseHub - Booking Receipt</h2>');
+    printWindow.document.write('<pre>' + JSON.stringify(booking, null, 2) + '</pre>');
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+  });
+
+  document.getElementById('goAdmin').addEventListener('click', () => {
+    window.location.href = 'admin.html';
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OceanVoyage - Luxury Cruise Booking</title>
+    <link rel="stylesheet" href="Home.css">
+</head>
+<body>
+    
+    <section class="hero" id="home">
+        <nav class="nav">
+            <div class="nav-brand">
+                <svg class="anchor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M12 2v20M12 2a2 2 0 100 4 2 2 0 000-4zM2 12h20M12 22a10 10 0 01-10-10M12 22a10 10 0 0010-10" stroke-width="2"/>
+                </svg>
+                <span>OceanVoyage</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#cruises">Cruises</a>
+                <a href="#destinations">Destinations</a>
+                <a href="#features">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="cta" id="userArea">
+
+                
+
+  <!-- Sign In Button -->
+  <a class="btn btn-outline" href="login.html" id="loginBtn">Sign In</a>
+
+  <!-- User Profile -->
+  <div class="user-profile" id="userProfileBox" style="display:none;" onclick="toggleProfileMenu()">
+    <div class="avatar" id="avatarText"></div>
+
+    <div class="user-info">
+      <div class="user-name" id="profileName">User Name</div>
+      <div class="user-email" id="profileEmail">user@email.com</div>
+    </div>
+
+    <div class="arrow"></div>
+
+    <!-- Dropdown Menu -->
+    <div class="profile-menu" id="profileMenu">
+      <a href="#" onclick="openProfilePopup()">My Profile</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+  </div>
+
+</div>
+      
+      
+            
+
+        </nav>
+
+        <div class="hero-content">
+            <h1 class="hero-title">Discover Your Dream Cruise</h1>
+            <p class="hero-subtitle">Explore the world's most beautiful destinations aboard luxury cruise ships</p>
+            <div class="hero-buttons">
+                <a href="search.html" class="btn btn-primary">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                        <path d="M21 21l-4.35-4.35" stroke-width="2"/>
+                    </svg>
+                    Search Cruises
+                </a>
+                <button class="btn btn-outline">Learn More</button>
+            </div>
+        </div>
+
+        
+    </section>
+
+    
+    <section class="section" id="cruises">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Cruises</h2>
+                <p>Handpicked voyages to the world's most incredible destinations</p>
+            </div>
+            <div class="cruises-grid" id="cruises-grid"></div>
+        </div>
+    </section>
+
+    
+
+    
+    <section class="section section-dark" id="destinations">
+        <div class="container">
+            <div class="section-header">
+                <h2>Popular Destinations</h2>
+                <p>Discover our most sought-after cruise experiences</p>
+            </div>
+            <div class="destinations-grid" id="destinations-grid"></div>
+        </div>
+    </section>
+
+ 
+    <section class="section section-light" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose Us</h2>
+                <p>Experience the difference with our world-class cruise services</p>
+            </div>
+            <div class="features-grid" id="features-grid"></div>
+        </div>
+    </section>
+
+   
+    <!-- Update the feedback section -->
+
+    <section class="feedback-section">
+        <div class="feedback-container">
+            <h2>We Value Your Feedback</h2>
+            <p>Share your cruise experience and help us improve our services!</p>
+            
+            <form id="feedbackForm" class="feedback-form">
+                <input 
+                    type="text" 
+                    id="feedbackName" 
+                    placeholder="Your Name" 
+                    required
+                >
+                
+                <input 
+                    type="email" 
+                    id="feedbackEmail" 
+                    placeholder="Your Email" 
+                    required
+                >
+                
+                <textarea 
+                    id="feedbackMessage" 
+                    placeholder="Your Feedback..." 
+                    rows="6"
+                    required
+                ></textarea>
+
+                <div class="feedback-rating">
+                    <label>Rating (Optional)</label>
+                    <div class="stars" id="ratingStars">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+                    <input type="hidden" id="feedbackRating" value="0">
+                </div>
+                
+                <button type="submit" class="feedback-btn">Submit Feedback</button>
+            </form>
+        </div>
+    </section>
+
+<!-- Update the feedback CSS styles -->
+<style>
+    .feedback-section {
+        background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+        padding: 60px 20px;
+        margin-top: 60px;
+    }
+
+    .feedback-container {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .feedback-section h2 {
+        font-size: 36px;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 12px;
+        animation: fadeInDown 0.6s ease;
+    }
+
+    .feedback-section > div > p {
+        font-size: 18px;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 40px;
+        animation: fadeInUp 0.6s ease 0.2s both;
+    }
+
+    .feedback-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        animation: fadeInUp 0.6s ease 0.4s both;
+    }
+
+    .feedback-form input,
+    .feedback-form textarea {
+        padding: 14px 18px;
+        border: none;
+        border-radius: 10px;
+        font-size: 15px;
+        font-family: inherit;
+        background: white;
+        color: #1e293b;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .feedback-form input::placeholder,
+    .feedback-form textarea::placeholder {
+        color: #cbd5e1;
+    }
+
+    .feedback-form input:focus,
+    .feedback-form textarea:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2), 0 2px 8px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .feedback-rating {
+        text-align: left;
+        padding: 14px 18px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+    }
+
+    .feedback-rating label {
+        display: block;
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .stars {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+    }
+
+    .star {
+        font-size: 28px;
+        color: rgba(255, 255, 255, 0.3);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        user-select: none;
+    }
+
+    .star:hover,
+    .star.active {
+        color: #fbbf24;
+        transform: scale(1.2) rotate(15deg);
+    }
+
+    .feedback-btn {
+        padding: 14px 40px;
+        background: #1f2937;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        align-self: center;
+        margin-top: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .feedback-btn:hover {
+        background: #111827;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .feedback-btn:active {
+        transform: translateY(0);
+    }
+
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .feedback-section {
+            padding: 40px 20px;
+        }
+
+        .feedback-section h2 {
+            font-size: 28px;
+        }
+
+        .feedback-section > div > p {
+            font-size: 16px;
+        }
+
+        .feedback-form input,
+        .feedback-form textarea {
+            font-size: 14px;
+            padding: 12px 14px;
+        }
+
+        .feedback-btn {
+            padding: 12px 30px;
+            font-size: 15px;
+        }
+
+        .star {
+            font-size: 24px;
+        }
+    }
+</style>
+
+<!-- Update the feedback JavaScript -->
+<script>
+    // ===== STAR RATING =====
+    const stars = document.querySelectorAll('.star');
+    let selectedRating = 0;
+
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            selectedRating = star.dataset.value;
+            document.getElementById('feedbackRating').value = selectedRating;
+            
+            stars.forEach(s => {
+                if (s.dataset.value <= selectedRating) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+        });
+
+        star.addEventListener('mouseover', () => {
+            stars.forEach(s => {
+                if (s.dataset.value <= star.dataset.value) {
+                    s.style.color = '#fbbf24';
+                } else {
+                    s.style.color = 'rgba(255, 255, 255, 0.3)';
+                }
+            });
+        });
+    });
+
+    document.getElementById('ratingStars').addEventListener('mouseleave', () => {
+        stars.forEach(s => {
+            if (s.dataset.value <= selectedRating) {
+                s.classList.add('active');
+            } else {
+                s.classList.remove('active');
+            }
+        });
+    });
+
+    // ===== FEEDBACK FORM SUBMISSION =====
+    document.getElementById('feedbackForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const feedback = {
+            id: Date.now(),
+            name: document.getElementById('feedbackName').value.trim(),
+            email: document.getElementById('feedbackEmail').value.trim(),
+            message: document.getElementById('feedbackMessage').value.trim(),
+            rating: parseInt(document.getElementById('feedbackRating').value) || 0,
+            date: new Date().toLocaleString(),
+            timestamp: new Date().toISOString(),
+            status: 'New'
+        };
+
+        // Validate
+        if (!feedback.name || !feedback.email || !feedback.message) {
+            showNotification('⚠️ Please fill in all fields', 'error');
+            return;
+        }
+
+        // Get existing feedbacks
+        let allFeedbacks = JSON.parse(localStorage.getItem('feedbacks')) || [];
+        allFeedbacks.push(feedback);
+        localStorage.setItem('feedbacks', JSON.stringify(allFeedbacks));
+
+        // Show success message
+        showNotification('✓ Thank you! Your feedback has been submitted.', 'success');
+
+        // Reset form
+        document.getElementById('feedbackForm').reset();
+        document.getElementById('feedbackRating').value = 0;
+        stars.forEach(s => s.classList.remove('active'));
+        selectedRating = 0;
+    });
+
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 3000;
+            animation: slideIn 0.3s ease;
+            font-weight: 600;
+            font-size: 14px;
+        `;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => notification.remove(), 300);
+        }, 4000);
+    }
+</script>
+
+
+
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">
+                        <svg class="anchor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M12 2v20M12 2a2 2 0 100 4 2 2 0 000-4zM2 12h20M12 22a10 10 0 01-10-10M12 22a10 10 0 0010-10" stroke-width="2"/>
+                        </svg>
+                        <span>OceanVoyage</span>
+                    </div>
+                    <p>Creating unforgettable cruise experiences since 1995</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Fleet</a></li>
+                        <li><a href="#">Destinations</a></li>
+                        <li><a href="#">Special Offers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Booking Terms</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li>cruisocean@gmail.com</li>
+                        <li>+91 8778878888</li>
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 OceanVoyage. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="Home.js"></script>
+
+    <!-- ================= PROFILE POPUP MODAL ================= -->
+<div id="profileModal" class="profile-modal">
+  <div class="profile-container">
+    <span class="close-btn" onclick="closeProfile()">×</span>
+
+    <div class="profile-header">
+      <div class="profile-avatar" id="modalAvatar">U</div>
+      <div>
+        <h3 id="modalName">User Name</h3>
+        <p id="modalEmail">user@email.com</p>
+      </div>
+    </div>
+
+    <div class="profile-body">
+
+      <div class="form-row">
+        <label>Full Name</label>
+        <input type="text" id="pname">
+      </div>
+
+      <div class="form-row">
+        <label>Email</label>
+        <input type="email" id="pemail" disabled>
+      </div>
+
+      <div class="form-row">
+        <label>Phone</label>
+        <input type="text" id="pphone">
+      </div>
+
+      <div class="form-row">
+        <label>Address</label>
+        <input type="text" id="paddress">
+      </div>
+
+      <button class="save-btn" onclick="updateProfile()">Save Profile</button>
+
+    </div>
+  </div>
+</div>
+<style>
+/* ================= PROFILE MODAL ================= */
+.profile-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-container {
+  width: 420px;
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  animation: popup 0.3s ease;
+}
+
+@keyframes popup {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.profile-header {
+  background: linear-gradient(135deg,#2563eb,#1e40af);
+  color: white;
+  padding: 20px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.profile-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.profile-body {
+  padding: 20px;
+}
+
+.form-row {
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row label {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.form-row input {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.save-btn {
+  width: 100%;
+  padding: 10px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.close-btn {
+  position: absolute;
+  right: 18px;
+  top: 12px;
+  font-size: 22px;
+  cursor: pointer;
+}
+</style>
+<script>
+
+    let user = JSON.parse(sessionStorage.getItem("loggedUser"));
+
+if (user) {
+  document.getElementById("loginBtn").style.display = "none";
+  document.getElementById("profileBox").style.display = "flex";
+  document.getElementById("userEmail").innerText = user.email;
+
+  document.getElementById("modalName").innerText = user.name;
+  document.getElementById("modalEmail").innerText = user.email;
+  document.getElementById("modalAvatar").innerText = user.name.charAt(0).toUpperCase();
+
+  document.getElementById("pname").value = user.name;
+  document.getElementById("pemail").value = user.email;
+  document.getElementById("pphone").value = user.phone || "";
+  document.getElementById("paddress").value = user.address || "";
+}
+
+function openProfilePopup() {
+  document.getElementById("profileModal").style.display = "flex";
+}
+
+function closeProfile() {
+  document.getElementById("profileModal").style.display = "none";
+}
+
+function updateProfile() {
+  user.name = document.getElementById("pname").value;
+  user.phone = document.getElementById("pphone").value;
+  user.address = document.getElementById("paddress").value;
+
+  sessionStorage.setItem("loggedUser", JSON.stringify(user));
+  alert("✅ Profile Updated Successfully");
+  closeProfile();
+}
+
+function logout() {
+  sessionStorage.clear();
+  window.location.href = "login.html";
+}
+</script>
+
+
+
+    
+</body>
+</html>

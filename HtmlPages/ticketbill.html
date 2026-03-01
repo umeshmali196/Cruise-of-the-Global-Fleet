@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cruise Ticket Invoice</title>
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background:#f4f6f9;
+      padding:30px;
+    }
+    .ticket{
+      background:white;
+      width:850px;
+      margin:auto;
+      padding:25px;
+      border-radius:10px;
+      box-shadow:0 0 10px #aaa;
+    }
+    h2{
+      text-align:center;
+      margin-bottom:20px;
+    }
+    .row{
+      display:flex;
+      justify-content:space-between;
+      padding:6px 0;
+    }
+    .label{font-weight:bold;}
+    .section-title{
+      background:#0b5ed7;
+      color:white;
+      padding:8px;
+      margin-top:20px;
+    }
+    .total{
+      font-size:20px;
+      font-weight:bold;
+      text-align:right;
+      margin-top:20px;
+    }
+    .btn{
+      display:block;
+      margin:30px auto;
+      padding:10px 25px;
+      font-size:16px;
+      border:none;
+      background:#0b5ed7;
+      color:white;
+      cursor:pointer;
+      border-radius:5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="ticket">
+  <h2>SEA VOYAGE PREMIUM CRUISE TICKET</h2>
+
+  <div class="section-title">Passenger Details</div>
+  <div class="row"><span class="label">Name:</span> <span id="t_name"></span></div>
+  <div class="row"><span class="label">Email:</span> <span id="t_email"></span></div>
+  <div class="row"><span class="label">Phone:</span> <span id="t_phone"></span></div>
+  <div class="row"><span class="label">Gender:</span> <span id="t_gender"></span></div>
+  <div class="row"><span class="label">Passport No:</span> <span id="t_passport"></span></div>
+
+  <div class="section-title">Cruise Details</div>
+  <div class="row"><span class="label">Cruise:</span> <span id="t_cruise"></span></div>
+  <div class="row"><span class="label">Cabin:</span> <span id="t_cabin"></span></div>
+  <div class="row"><span class="label">Travel Date:</span> <span id="t_travelDate"></span></div>
+  <div class="row"><span class="label">Passengers:</span> <span id="t_passengers"></span></div>
+
+  <div class="section-title">Payment Summary</div>
+  <div class="total">Total Amount Paid: $<span id="t_price"></span></div>
+
+  <button class="btn" onclick="window.print()">Download / Print Ticket</button>
+</div>
+
+<script>
+document.getElementById("t_name").innerText = localStorage.getItem("ticket_name");
+document.getElementById("t_email").innerText = localStorage.getItem("ticket_email");
+document.getElementById("t_phone").innerText = localStorage.getItem("ticket_phone");
+document.getElementById("t_gender").innerText = localStorage.getItem("ticket_gender");
+document.getElementById("t_passport").innerText = localStorage.getItem("ticket_passport");
+
+document.getElementById("t_cruise").innerText = localStorage.getItem("ticket_cruise");
+document.getElementById("t_cabin").innerText = localStorage.getItem("ticket_cabin");
+document.getElementById("t_travelDate").innerText = localStorage.getItem("ticket_travelDate");
+document.getElementById("t_passengers").innerText = localStorage.getItem("ticket_passengers");
+document.getElementById("t_price").innerText = localStorage.getItem("ticket_price");
+</script>
+
+</body>
+</html>

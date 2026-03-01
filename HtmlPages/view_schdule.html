@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>View Schedules - Cruise PMS</title>
+    <link rel="stylesheet" href="view_schedule.css" />
+</head>
+
+<body>
+    <!-- Fixed header / navigation -->
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="logo">🚢 <span>Cruise PMS</span></div>
+            <nav class="top-nav">
+
+        </div>
+        </div>
+    </header>
+
+    <!-- Hero / artwork -->
+    <header class="hero">
+        <!-- Inline SVG hero image (cruise + mountains). This is HD and clean. -->
+        <div class="hero-image" role="img" aria-label="Cruise ship with mountains">
+            <svg viewBox="0 0 1600 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0" stop-color="#0f4c6b" />
+                        <stop offset="1" stop-color="#6b8da6" />
+                    </linearGradient>
+                    <linearGradient id="water" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0" stop-color="#315d72" />
+                        <stop offset="1" stop-color="#1f3847" />
+                    </linearGradient>
+                </defs>
+
+                <!-- sky -->
+                <rect width="100%" height="100%" fill="url(#sky)" />
+
+                <!-- mountains -->
+                <path d="M0 420 Q200 300 400 420 T800 420 T1200 380 T1600 420 L1600 600 L0 600 Z" fill="#2a4657"
+                    opacity="0.95" />
+                <path d="M0 460 Q240 360 480 460 T960 460 T1440 420 T1600 460 L1600 600 L0 600 Z" fill="#345a6a"
+                    opacity="0.85" />
+
+                <!-- water -->
+                <rect y="480" width="100%" height="120" fill="url(#water)" />
+
+                <!-- cruise ship (simple stylized) -->
+                <g transform="translate(120,360) scale(0.9)">
+                    <!-- hull -->
+                    <path d="M0 60 L420 60 Q440 60 450 40 L500 20 L520 20 L520 0 L90 0 L70 10 L30 10 Q10 20 0 40 Z"
+                        fill="#ffffff" stroke="#cfd8dc" stroke-width="2" />
+                    <!-- decks -->
+                    <rect x="30" y="-40" width="460" height="30" fill="#ffffff" stroke="#cfd8dc" stroke-width="2" />
+                    <rect x="60" y="-70" width="390" height="30" fill="#ffffff" stroke="#cfd8dc" stroke-width="2" />
+                    <!-- windows -->
+                    <g fill="#e6f2fa">
+                        <rect x="40" y="-30" width="40" height="18" rx="3" />
+                        <rect x="90" y="-30" width="40" height="18" rx="3" />
+                        <rect x="140" y="-30" width="40" height="18" rx="3" />
+                        <rect x="190" y="-30" width="40" height="18" rx="3" />
+                        <rect x="240" y="-30" width="40" height="18" rx="3" />
+                        <rect x="290" y="-30" width="40" height="18" rx="3" />
+                        <rect x="340" y="-30" width="40" height="18" rx="3" />
+                    </g>
+                    <!-- funnel -->
+                    <rect x="360" y="-90" width="40" height="60" rx="6" fill="#2d3e50" />
+                </g>
+
+                <!-- Title text centered -->
+                <text x="50%" y="155" text-anchor="middle" font-family="Montserrat, Arial, sans-serif" font-size="88"
+                    fill="#ffffff" font-weight="700" letter-spacing="4">CRUISES</text>
+                <text x="50%" y="210" text-anchor="middle" font-family="Montserrat, Arial, sans-serif" font-size="28"
+                    fill="#dbeaf2">for those who are hard to surprise</text>
+            </svg>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="controls">
+            <input id="filter-destination" placeholder="Filter by destination (e.g., Alaska)" />
+            <select id="filter-status">
+                <option value="">All statuses</option>
+                <option value="Scheduled">Scheduled</option>
+                <option value="Departed">Departed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+            <button id="refresh-btn">Refresh</button>
+        </section>
+
+        <section class="schedule-list">
+            <h2>Schedule List</h2>
+            <div class="table-wrap">
+                <table id="schedules-table" class="schedules">
+                    <thead>
+                        <tr>
+                            <th>Schedule ID</th>
+                            <th>Ship Name</th>
+                            <th>Departure</th>
+                            <th>Arrival</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- rows injected by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div>© <span id="year"></span> Cruise Management</div>
+            <div class="foot-links">Made with ❤️ for unforgettable journeys</div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample data - in real app replace with fetch('/api/schedules') etc.
+        const sampleSchedules = [
+            { id: 'SCH-001', ship: 'Aurora', departure: '2025-11-01T09:00', arrival: '2025-11-05T18:00', from: 'Surat', to: 'Landon', price: 899, status: 'Scheduled' },
+            { id: 'SCH-002', ship: 'Oceanis', departure: '2025-11-10T08:00', arrival: '2025-11-15T20:00', from: 'Ahmdabad', to: 'Dubai', price: 499, status: 'Scheduled' },
+            { id: 'SCH-003', ship: 'Neptune', departure: '2025-10-20T07:00', arrival: '2025-10-24T19:00', from: 'Pune', to: 'France', price: 349, status: 'Departed' },
+            { id: 'SCH-004', ship: 'Aurora', departure: '2025-12-01T09:00', arrival: '2025-12-06T18:00', from: 'Mumbai', to: 'Maldives', price: 950, status: 'Cancelled' }
+        ];
+
+        const tableBody = document.querySelector('#schedules-table tbody');
+        const filterDestination = document.getElementById('filter-destination');
+        const filterStatus = document.getElementById('filter-status');
+        const refreshBtn = document.getElementById('refresh-btn');
+
+        function formatDateTime(dtStr) {
+            const d = new Date(dtStr);
+            return d.toLocaleString();
+        }
+
+        function renderRows(data) {
+            tableBody.innerHTML = '';
+            if (data.length === 0) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = '<td colspan="8" class="no-data">No schedules found.</td>';
+                tableBody.appendChild(tr);
+                return;
+            }
+            data.forEach(s => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+          <td>${s.id}</td>
+          <td>${s.ship}</td>
+          <td>${formatDateTime(s.departure)}</td>
+          <td>${formatDateTime(s.arrival)}</td>
+          <td>${s.from}</td>
+          <td>${s.to}</td>
+          <td>$${s.price}</td>
+          <td><span class="status ${s.status.toLowerCase()}">${s.status}</span></td>
+        `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        function applyFilters() {
+            const dest = filterDestination.value.trim().toLowerCase();
+            const status = filterStatus.value;
+            let filtered = sampleSchedules.slice();
+
+            if (dest) {
+                filtered = filtered.filter(s => s.from.toLowerCase().includes(dest) || s.to.toLowerCase().includes(dest));
+            }
+            if (status) {
+                filtered = filtered.filter(s => s.status === status);
+            }
+            renderRows(filtered);
+        }
+
+        // Init
+        document.getElementById('year').textContent = new Date().getFullYear();
+        renderRows(sampleSchedules);
+
+        filterDestination.addEventListener('input', applyFilters);
+        filterStatus.addEventListener('change', applyFilters);
+        refreshBtn.addEventListener('click', () => {
+            // in real app call fetch('/api/schedules') then render
+            renderRows(sampleSchedules);
+        });
+
+    </script>
+</body>
+
+</html>
