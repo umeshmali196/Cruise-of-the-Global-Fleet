@@ -1,0 +1,73 @@
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  background: #f8fbff;
+}
+
+.header {
+  background: linear-gradient(to right, #023e8a, #0077b6);
+  color: white;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2.2rem;
+}
+
+#searchBar {
+  margin-top: 20px;
+  width: 50%;
+  padding: 10px;
+  border-radius: 25px;
+  border: none;
+  font-size: 1rem;
+}
+
+.cruise-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+  padding: 40px;
+}
+
+.cruise-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.cruise-card:hover {
+  transform: translateY(-5px);
+}
+
+.cruise-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-body h2 {
+  color: #0077b6;
+}
+
+.card-body button {
+  background: #0077b6;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.card-body button:hover {
+  background: #023e8a;
+}

@@ -1,0 +1,143 @@
+/* ...existing code... */
+.back-section { padding: 1rem 2rem; }
+.back-btn { display: inline-flex; align-items: center; gap: 0.5rem; color: #2563eb; text-decoration: none; font-weight: 500; }
+.back-btn:hover { color: #1e40af; }
+
+.hero-image { width: 100%; height: 400px; overflow: hidden; }
+.full-image { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.about-section { background: #f9fafb; }
+.cruise-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+.meta-item { display: flex; gap: 1rem; align-items: flex-start; }
+.meta-item i { font-size: 1.5rem; color: #2563eb; margin-top: 0.25rem; }
+
+.facilities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem; }
+.facility-card { position: relative; border-radius: 8px; overflow: hidden; cursor: pointer; transition: transform 0.3s; }
+.facility-card:hover { transform: scale(1.05); }
+.facility-img { width: 100%; height: 140px; object-fit: cover; display: block; }
+.facility-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2rem; opacity: 0; transition: opacity 0.3s; }
+.facility-card:hover .facility-overlay { opacity: 1; }
+.facility-card.active { border: 3px solid #2563eb; }
+.facility-card h4 { margin: 0.5rem 0 0; padding: 0 0.5rem; font-size: 0.95rem; }
+.facility-card p { margin: 0.25rem 0.5rem 0; font-size: 0.85rem; color: #666; }
+
+.cabins-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+.cabin-card { border: 2px solid #e6e6e6; border-radius: 8px; overflow: hidden; transition: all 0.3s; }
+.cabin-card:hover { border-color: #2563eb; box-shadow: 0 4px 20px rgba(37, 99, 235, 0.1); }
+.cabin-card.active { border-color: #2563eb; background: #f0f7ff; }
+.cabin-image-box { position: relative; height: 200px; overflow: hidden; }
+.cabin-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cabin-price-tag { position: absolute; top: 0.5rem; right: 0.5rem; background: #2563eb; color: #fff; padding: 0.4rem 0.8rem; border-radius: 6px; font-weight: bold; }
+.cabin-content { padding: 1rem; }
+.cabin-content h3 { margin: 0 0 0.75rem; font-size: 1.1rem; }
+.cabin-features { list-style: none; padding: 0; margin: 0.5rem 0; font-size: 0.9rem; }
+.cabin-features li { padding: 0.25rem 0; color: #555; }
+.cabin-features i { color: #22c55e; margin-right: 0.5rem; }
+.cabin-select-btn { width: 100%; margin-top: 0.75rem; }
+
+.booking-summary { background: #f0f7ff; padding: 1.5rem 0; margin: 2rem 0; }
+.summary-row { display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 1rem; }
+.summary-row.total { border-top: 2px solid #2563eb; padding-top: 0.75rem; font-size: 1.1rem; font-weight: bold; }
+.input-small { width: 80px; padding: 0.4rem; border: 1px solid #ccc; border-radius: 4px; }
+
+.button-section { text-align: center; padding: 2rem; }
+.btn-large { padding: 0.75rem 2rem; font-size: 1rem; }
+.btn-large:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.footer { background: #1f2937; color: #fff; padding: 1rem; text-align: center; margin-top: 2rem; }
+
+/* ...existing code... */
+
+/* Facilities grid: 3 per row on large screens (3 + 3 + 2 layout for 8 items) */
+.facilities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+  align-items: start;
+  /* limit width so last-row centering is visually balanced */
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* When there are exactly 8 facility cards, push the last two into columns 2 & 3
+   so they appear centered visually (works well for the 3+3+2 requirement) */
+.facilities-grid .facility-card:nth-last-child(2) {
+  grid-column: 2 / 3;
+}
+.facilities-grid .facility-card:nth-last-child(1) {
+  grid-column: 3 / 4;
+}
+
+/* Card visual polish */
+.facility-card {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+  display: flex;
+  flex-direction: column;
+}
+.facility-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(16,24,40,0.12);
+}
+
+/* Image sizing and overlay */
+.facility-img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.facility-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.6rem;
+  opacity: 0;
+  transition: opacity .22s ease;
+}
+.facility-card:hover .facility-overlay { opacity: 1; }
+
+/* Title / description spacing */
+.facility-card h4 {
+  margin: 0.6rem 0 0;
+  padding: 0 0.9rem;
+  font-size: 1rem;
+}
+.facility-card p {
+  margin: 0.25rem 0 0.9rem;
+  padding: 0 0.9rem 1rem;
+  color: #555;
+  font-size: 0.92rem;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1000px) {
+  .facilities-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 per row on tablet */
+    max-width: 780px;
+  }
+  /* Reset specific nth-last-child placement for smaller screens */
+  .facilities-grid .facility-card:nth-last-child(2),
+  .facilities-grid .facility-card:nth-last-child(1) {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .facilities-grid {
+    grid-template-columns: 1fr; /* single column on mobile */
+    max-width: 420px;
+  }
+}
+
+/* ...existing code... */

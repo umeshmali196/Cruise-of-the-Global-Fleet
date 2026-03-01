@@ -1,0 +1,297 @@
+/* ... (unchanged styles) ... */
+
+/* Hero Section */
+.hero {
+    position: relative;
+    height: 100vh;
+    /* Adjusted background to slightly darken image for better text contrast */
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('cruise_bg.jpg') center/cover;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav {
+    /* Make nav sticky and give it a background color for contrast on scroll */
+    position: sticky; 
+    top: 0;
+    z-index: 1000; /* Ensure it stays above other content */
+    background: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
+    backdrop-filter: blur(5px); /* Add a blur effect for modern look */
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px; /* Slightly reduced vertical padding */
+    animation: none; /* Removed slideDown animation since it's now sticky */
+    transition: background 0.3s ease;
+}
+
+/* Optional: Add a subtle shadow when scrolling */
+body:not(.scrolled) .nav {
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+/* You'd need JS to toggle a 'scrolled' class on the body */
+
+/* ... (nav-brand, anchor-icon, nav-links are unchanged) ... */
+
+/* Hero Content and Buttons */
+
+.hero-title {
+    font-size: clamp(3rem, 7vw, 6rem); /* Made title a bit bigger */
+    font-weight: 800; /* Made title bolder */
+    margin-bottom: 25px;
+    animation: fadeInUp 0.8s ease 0.2s both;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5); /* Added text shadow for pop */
+}
+
+.hero-subtitle {
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem); /* Made subtitle a bit bigger */
+    margin-bottom: 50px;
+    max-width: 700px;
+    animation: fadeInUp 0.8s ease 0.4s both;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 30px; /* Increased gap */
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeInUp 0.8s ease 0.6s both;
+}
+
+.btn {
+    padding: 18px 35px; /* Increased padding */
+    font-size: 18px; /* Increased font size */
+    border: none;
+    border-radius: 50px; /* Made buttons more rounded */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
+    font-weight: 700; /* Made text bolder */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background: #007bff; /* Changed primary color to a brighter blue */
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+    transform: translateY(-3px) scale(1.02); /* More dynamic hover effect */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-outline {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: white;
+    transform: translateY(-3px) scale(1.02);
+}
+
+.btn-dark {
+    background: #1f2937;
+    color: white;
+    border-radius: 8px; /* Keeping dark button more square */
+}
+
+/* ... (user-profile styles are unchanged, profile-dropdown removed) ... */
+
+/* ===== USER PROFILE HEADER (Small adjustment) ===== */
+.user-profile {
+  /* ... (unchanged) ... */
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.user-profile:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.avatar {
+  /* ... (unchanged) ... */
+}
+
+.arrow {
+    font-size: 12px;
+    margin-left: 4px;
+    display: flex; /* Added flex to center the SVG */
+    align-items: center;
+}
+
+/* Sections */
+.section {
+    padding: 100px 0; /* Increased vertical padding */
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 80px; /* Increased margin */
+    /* ... (rest unchanged) ... */
+}
+
+.section-header h2 {
+    font-size: clamp(2.5rem, 4vw, 3.5rem); /* Made section titles bigger */
+    /* ... (rest unchanged) ... */
+}
+
+/* Cruise Cards */
+.cruises-grid {
+    /* ... (unchanged) ... */
+}
+
+.cruise-card {
+    background: white;
+    border-radius: 16px; /* More rounded corners */
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Stronger shadow for a lifted look */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* ... (rest unchanged) ... */
+}
+
+.cruise-card:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+    transform: translateY(-8px); /* More pronounced lift */
+}
+
+/* Added star rating style */
+.star-rating {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #fef3c7; /* Light yellow background */
+    color: #f59e0b; /* Orange-yellow star color */
+    padding: 6px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.star-rating svg {
+    width: 16px;
+    height: 16px;
+    fill: #f59e0b; /* Fill the star */
+    stroke: none;
+}
+
+.badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #ef4444; /* Changed badge color to a distinct red */
+    color: white;
+    padding: 6px 14px;
+    border-radius: 50px; /* More rounded */
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+.cruise-content {
+    padding: 30px; /* Increased padding */
+}
+
+.cruise-details {
+    display: grid; /* Changed to grid for better alignment */
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed #e5e7eb; /* Dashed separator */
+}
+
+.detail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #4b5563; /* Darker gray color */
+    font-size: 15px;
+}
+.cruise-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px; /* Added margin */
+}
+
+.price-info p:first-child {
+    color: #6b7280;
+    font-size: 15px;
+}
+
+.price {
+    font-size: 2.2rem; /* Bigger price text */
+    color: #007bff; /* Match new primary color */
+    font-weight: 800;
+}
+
+/* Destinations */
+.destinations-grid {
+    /* ... (unchanged) ... */
+}
+
+.destination-card {
+    height: 450px; /* Slightly taller cards */
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    /* ... (rest unchanged) ... */
+}
+
+.destination-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.destination-overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5), transparent); /* Darker overlay */
+}
+
+.destination-content {
+    padding: 30px;
+}
+
+.destination-content h3 {
+    font-size: 2.5rem;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+}
+
+
+/* Features */
+.feature-card {
+    padding: 40px; /* Increased padding */
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.feature-icon {
+    width: 70px; /* Bigger icon container */
+    height: 70px;
+    background: #e0f2fe; /* Lighter blue */
+    /* ... (rest unchanged) ... */
+}
+
+.feature-icon svg {
+    width: 36px; /* Bigger icon */
+    height: 36px;
+    stroke: #007bff; /* Match new primary color */
+}
+
+/* ... (Animations and Responsive styles are unchanged) ... */

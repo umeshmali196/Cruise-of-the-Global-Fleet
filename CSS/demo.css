@@ -1,0 +1,98 @@
+body {
+  margin: 0;
+  font-family: Poppins, sans-serif;
+  background: #f4f7fb;
+}
+
+.booking-wrapper {
+  display: flex;
+  gap: 30px;
+  padding: 30px;
+}
+
+/* ✅ LEFT FORM */
+.booking-form {
+  flex: 3;
+}
+
+/* ✅ RIGHT SUMMARY */
+.booking-summary {
+  flex: 1;
+  background: linear-gradient(135deg,#1f5edc,#163b9a);
+  color: white;
+  padding: 25px;
+  border-radius: 18px;
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+}
+
+.booking-summary h2 {
+  margin-top: 0;
+}
+
+.booking-summary .price {
+  font-size: 26px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+/* ✅ CARDS */
+.section-card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 22px;
+  box-shadow: 0 6px 14px rgba(0,0,0,.08);
+}
+
+/* ✅ GRID */
+.special-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 16px;
+}
+
+/* ✅ INPUT WITH ICON */
+.special-field {
+  position: relative;
+}
+
+.special-field i {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #1f5edc;
+}
+
+.special-field input,
+.special-field select {
+  width: 100%;
+  padding: 12px 12px 12px 38px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* ✅ BUTTON */
+.payment-btn {
+  width: 100%;
+  background: #1f5edc;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.payment-btn:hover {
+  background: #153c9a;
+}
+
+/* ✅ MOBILE */
+@media(max-width:900px){
+  .booking-wrapper{
+    flex-direction: column;
+  }
+}
