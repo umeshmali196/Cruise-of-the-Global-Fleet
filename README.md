@@ -100,123 +100,112 @@ Users can successfully register and log in to the system
 </tr>
 </table>
 
-🎯 Key Features
-👤 User Features
-User Registration & Login
-Browse Available Cruises
-View Cruise Details
-Book Cruise Tickets
-Secure Payment System
-Booking Confirmation
-User Profile Management
-View Booking History
-🛠️ Admin Features
-Admin Dashboard
-Manage Cruises (Add / Update / Delete)
-Manage Bookings
-View Users
-Booking Analytics & Reports
-Real-time Booking Data
-🖥️ System Modules
-🔐 Authentication Module
-User & Admin Login System
-Session Management
-Secure Authentication
-🚢 Cruise Management Module
-Add Cruise Details
-Update Cruise Information
-Delete Cruise Records
-📅 Booking Module
-Cruise Selection
-Booking Processing
-Booking Confirmation
-📊 Admin Dashboard Module
-Total Bookings Count
-Confirmed Bookings
-Daily Bookings
-Data Visualization using Charts
+# 🎯 Key Features
 
-⚙️ Tech Stack
-Frontend
-HTML5
-CSS3
-JavaScript
+## 👤 User Features
+- User Registration & Login
+- Browse Available Cruises
+- View Cruise Details
+- Book Cruise Tickets
+- Secure Payment System
+- Booking Confirmation
+- User Profile Management
+- View Booking History
 
-Backend
-Java (Core Java)
-JSP (Java Server Pages)
+## 🛠️ Admin Features
+- Admin Dashboard
+- Manage Cruises (Add / Update / Delete)
+- Manage Bookings
+- View Users
+- Booking Analytics & Reports
+- Real-time Booking Data
 
-Server
-Apache Tomcat
+---
 
-Database
-MySQL
+## 🖥️ System Modules
 
-Tools
-VS Code / Eclipse
-Mysql Workbench 8.0 CE
+### 🔐 Authentication Module
+- User & Admin Login System
+- Session Management
+- Secure Authentication
 
-Testing
-Google Chrome
-Browser DevTools
+### 🚢 Cruise Management Module
+- Add Cruise Details
+- Update Cruise Information
+- Delete Cruise Records
 
-📊 Dashboard Overview
-Displays total bookings
-Shows confirmed bookings
-Shows today’s bookings
-Real-time data update
-Graphical representation using charts
+### 📅 Booking Module
+- Cruise Selection
+- Booking Processing
+- Booking Confirmation
 
-🔄 System Workflow
-User registers and logs in
-User browses available cruises
-User selects cruise and books
-Admin dashboard updates automatically
-Reports generated for analysis
+### 📊 Admin Dashboard Module
+- Total Bookings Count
+- Confirmed Bookings
+- Daily Bookings
+- Data Visualization using Charts
 
-🔐 Security Features
-Login authentication
-Input validation
+---
 
-🚀 Installation Guide
-🔧 Requirements
-Java JDK
-Apache Tomcat
-MySQL
-VS Code / Eclipse
+## ⚙️ Tech Stack
 
-⚙️ Setup Steps
-Clone Project
+### 🎨 Frontend
+- HTML5
+- CSS3
+- JavaScript
+
+### ⚙️ Backend
+- Java (Core Java)
+- JSP (Java Server Pages)
+
+### 🌐 Server
+- Apache Tomcat
+
+### 🗄️ Database
+- MySQL
+
+### 🛠️ Tools
+- VS Code / Eclipse
+- MySQL Workbench 8.0 CE
+
+### 🧪 Testing
+- Google Chrome
+- Browser DevTools
+
+---
+
+## 📊 Dashboard Overview
+- Displays total bookings
+- Shows confirmed bookings
+- Shows today’s bookings
+- Real-time data updates
+- Graphical representation using charts
+
+---
+
+## 🔄 System Workflow
+1. User registers and logs in  
+2. User browses available cruises  
+3. User selects cruise and books  
+4. Admin dashboard updates automatically  
+5. Reports generated for analysis  
+
+---
+
+## 🔐 Security Features
+- Login authentication  
+- Input validation  
+
+---
+
+## 🚀 Installation Guide
+
+### 🔧 Requirements
+- Java JDK  
+- Apache Tomcat  
+- MySQL  
+- VS Code / Eclipse  
+
+### ⚙️ Setup Steps
+```bash
 git clone your-repo-link
-
-Import project in Eclipse / VS Code
-Configure Database (MySQL)
-Start Apache Tomcat Server
-
-Run project on:
-http://localhost:8080/Project
-
-📈 Future Enhancements
-Online payment gateway integration
-Email notifications
-AI-based recommendations
-Mobile responsive UI
-Real-time tracking system
-
-
-⚠️ Current Status
-
-Frontend interface is fully structured.
-User authentication (Login & Registration) is functional.
-Backend architecture is implemented using JSP and Java.
-Some backend functionalities are under improvement due to integration and server-side configuration issues.
-This project is being continuously refined to enhance complete backend workflow and database operations.
-
-How to Run the Project :
-Install and configure Apache Tomcat (v9 or above)
-Deploy the project inside the webapps directory
-Start the Tomcat server
-Open browser and access:
-
-Copy code
-http://localhost:8080/Project/login.html
