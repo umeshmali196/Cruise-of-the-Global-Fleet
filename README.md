@@ -34,7 +34,8 @@ Users can successfully register and log in to the system
 </td>
 
 <td align="center">
-<b>Forgot Password</b>
+    <img src="https://github.com/user-attachments/assets/1abaa0c3-c47f-4621-8df1-70b92bbe606e" width="300"/><br>
+    <b>Forgot Password</b>
 </td>
 </tr>
 </table>
