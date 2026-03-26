@@ -100,46 +100,123 @@ Users can successfully register and log in to the system
 </tr>
 </table>
 
-🛠️ Technologies Used : 
-🎨 Frontend
-HTML
-CSS
+🎯 Key Features
+👤 User Features
+User Registration & Login
+Browse Available Cruises
+View Cruise Details
+Book Cruise Tickets
+Secure Payment System
+Booking Confirmation
+User Profile Management
+View Booking History
+🛠️ Admin Features
+Admin Dashboard
+Manage Cruises (Add / Update / Delete)
+Manage Bookings
+View Users
+Booking Analytics & Reports
+Real-time Booking Data
+🖥️ System Modules
+🔐 Authentication Module
+User & Admin Login System
+Session Management
+Secure Authentication
+🚢 Cruise Management Module
+Add Cruise Details
+Update Cruise Information
+Delete Cruise Records
+📅 Booking Module
+Cruise Selection
+Booking Processing
+Booking Confirmation
+📊 Admin Dashboard Module
+Total Bookings Count
+Confirmed Bookings
+Daily Bookings
+Data Visualization using Charts
+
+⚙️ Tech Stack
+Frontend
+HTML5
+CSS3
 JavaScript
-⚙️ Backend
-Java
+
+Backend
+Java (Core Java)
 JSP (Java Server Pages)
-Apache Tomcat Server
-🗄️ Database
+
+Server
+Apache Tomcat
+
+Database
 MySQL
+
+Tools
+VS Code / Eclipse
+Mysql Workbench 8.0 CE
+
+Testing
+Google Chrome
+Browser DevTools
+
+📊 Dashboard Overview
+Displays total bookings
+Shows confirmed bookings
+Shows today’s bookings
+Real-time data update
+Graphical representation using charts
+
+🔄 System Workflow
+User registers and logs in
+User browses available cruises
+User selects cruise and books
+Admin dashboard updates automatically
+Reports generated for analysis
+
+🔐 Security Features
+Login authentication
+Input validation
+
+🚀 Installation Guide
+🔧 Requirements
+Java JDK
+Apache Tomcat
+MySQL
+VS Code / Eclipse
+
+⚙️ Setup Steps
+Clone Project
+git clone your-repo-link
+
+Import project in Eclipse / VS Code
+Configure Database (MySQL)
+Start Apache Tomcat Server
+
+Run project on:
+http://localhost:8080/Project
+
+📈 Future Enhancements
+Online payment gateway integration
+Email notifications
+AI-based recommendations
+Mobile responsive UI
+Real-time tracking system
+
 
 ⚠️ Current Status
 
-
 Frontend interface is fully structured.
-
-
 User authentication (Login & Registration) is functional.
-
-
 Backend architecture is implemented using JSP and Java.
-
-
 Some backend functionalities are under improvement due to integration and server-side configuration issues.
-
-
 This project is being continuously refined to enhance complete backend workflow and database operations.
 
 How to Run the Project :
-
-
 Install and configure Apache Tomcat (v9 or above)
-
 Deploy the project inside the webapps directory
-
 Start the Tomcat server
-
 Open browser and access:
 
 Copy code
-
-http://localhost:8080/ProjectName/login.html
+http://localhost:8080/Project/login.html
